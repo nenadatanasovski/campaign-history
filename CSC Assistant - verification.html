@@ -23,6 +23,7 @@
 
 	var submitted = Request.GetFormField('submitted');
 	var ip = Platform.Request.GetCookieValue('ipAddress');
+	Variable.SetValue("@ip",ip);
 </script>
 %%[
 
