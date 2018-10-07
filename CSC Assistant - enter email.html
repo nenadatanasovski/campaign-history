@@ -39,21 +39,17 @@
     request.open("GET", url , true);
     request.send(null);
 </script>
-
 <script runat=server>
     Platform.Load("Core","1");
     var ip = Platform.Request.GetCookieValue('ipAddress');
+  Variable.SetValue("@ip",ip);
 
-	//Write('IpAddress: ' + ip + '<br>');
-    var ipcheck = Platform.Function.LookupRows('IP_Addresses_amaysim','IP_Address',ip);
-
-	if (ipcheck.length == 0){
-		RaiseError("Access Denied");
-	}
 </script>
-
-
 %%[
+
+SET @ipcheck = IIF(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address',@ip)) == '0',RaiseError('Access Denied: Unregistered IP address'),'Access granted')
+
+]%%%%[
 /* Get Safety params */
 SET @secretHash = QueryParameter('h')
 SET @Email = QueryParameter('e')
