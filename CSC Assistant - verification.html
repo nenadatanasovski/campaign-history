@@ -26,7 +26,7 @@
 	var ipcheck = Platform.Function.LookupRows('IP_Addresses_amaysim','IP_Address',ip);
 
 	if (ipcheck.length == 0){
-		//Write("Access Denied<br>");
+		Write("Access Denied<br>");
 		RaiseError("Access Denied");
 	}
 
