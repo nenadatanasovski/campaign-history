@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSC Assistant</title>
+
+<!-- Bootstrap CSS -->
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<style type="text/css">
+.text-center {text-align: center !important;}
+</style>
+<script type="text/javascript">
+    var url = 'https://api.ipify.org';
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                document.body.className = 'ok';
+                document.cookie = 'ipAddress=' + request.responseText;
+            } else {
+                document.body.className = 'error';
+            }
+        }
+    };
+    request.open("GET", url , true);
+    request.send(null);
+</script>
+<script runat=server>
+    Platform.Load("Core","1");
+    var ip = Platform.Request.GetCookieValue('ipAddress');
+
+	//Write('IpAddress: ' + ip + '<br>');
+    var ipcheck = Platform.Function.LookupRows('IP_Addresses_amaysim','IP_Address',ip);
+
+	if (ipcheck.length == 0){
+		RaiseError("Access Denied");
+	}
+</script>
+%%[
+/* Get Safety params */
+SET @secretHash = QueryParameter('h')
+
+SET @secret = '4509%%4609?^%%^jklddsajk4?$^43234kjl?DFDSDF'
+SET @EventID = GUID()
+SET @date = FormatDate(SystemdateToLocalDate(NOW()), "DD-MM-YYYY")
+SET @submit = requestparameter("submitted")
+
+IF @submit == 'submitted' AND NOT EMPTY(@secretHash) AND @secretHash != '' THEN
+    SET @Email = requestparameter("email")
+    SET @GUID = Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate Desc','EmailAddress',@Email),'1'),'VerificationCode')
+	SET @HashCheck = SHA256(concat(@email,@secret,@GUID, @date),"UTF-16")
+
+	IF @HashCheck != @secretHash OR @GUID != requestparameter("password") THEN
+		Redirect('http://pub.e.amaysim.com.au/csc-verification')
+ELSE
+	Redirect(concat('http://pub.e.amaysim.com.au/csc-search/?e=',@email, '&h=', @HashCheck))
+ENDIF
+ENDIF
+
+]%%
+
+</head>
+<body>
+
+	<div class="container">
+		<h1>CSC Assistant - Login</h1>
+		<br><br><br>
+		<form action="" method="post">
+
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+					<div class="form-group">
+				<input type="hidden" value="submitted" name="submitted" >
+			    <label for="email">Login with your email address</label>
+			    <input type="text" class="form-control" id="email" name="email" placeholder="Enter your amaysim email address again">
+			  </div>
+			</div>
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+				 <div class="form-group">
+				    <label for="password">Verification Code</label>
+				    <input type="password" class="form-control" id="password" name="password" placeholder="Paste verification code here">
+				  </div>
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-16 col-md-6 col-lg-6">
+					<button type="submit" class="btn btn-default">Submit</button>
+				</div>
+			</div>
+
+		</form>
+	</div>
+</body>
+		<!-- jQuery -->
+		<script src="//code.jquery.com/jquery.js"></script>
+		<script src="//code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+		<!-- Bootstrap JavaScript -->
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	</body>
+</html>

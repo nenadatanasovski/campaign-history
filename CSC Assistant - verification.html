@@ -1,0 +1,125 @@
+<script runat=server language=ampscript>
+	SET @date = FormatDate(SystemdateToLocalDate(NOW()), "DD-MM-YYYY")
+</script>
+<script runat=server>
+	Platform.Load("Core","1");
+
+	var submitted = Request.GetFormField('submitted');
+	var ip = Platform.Request.GetCookieValue('ipAddress');
+	var ipcheck = Platform.Function.LookupRows('IP_Addresses_amaysim','IP_Address',ip);
+
+	if (ipcheck.length == 0){
+		//Write("Access Denied<br>");
+		RaiseError("Access Denied");
+	}
+
+	//Write('IpCheck: ' + Stringify(ipcheck) + '<br>');
+	if (submitted === 'submitted' && ipcheck.length > 0) {
+		var email = Request.GetFormField('email');
+		var guid = Platform.Function.GUID();
+		var logindate = Variable.GetValue("@date");
+		var date = new Date();
+		var year = date.getFullYear();
+		var month = date.getMonth();
+		var day = date.getDay();
+		var hours = date.getHours();
+		var minutes = date.getMinutes();
+		var seconds = date.getSeconds();
+		var systemdate = day + '-' + month + '-' + year + ' ' + hours + ':' + minutes + ':' + seconds;
+		var domain = email.split("@")[1];
+
+		if (domain == 'amaysim.com.au') {
+		   // requestToken
+		   var rcontentType = 'application/json';
+		   var rurl = "https://auth.exacttargetapis.com/v1/requestToken";
+		   var rpayload = '{"clientId":"ksr489oczrig5h7xhafh5cm0","clientSecret":"bwQ8uyZKp4so91pblIIpv6m4"}';
+		   var raccessTokenResult = HTTP.Post(rurl, rcontentType, rpayload);
+		   var raccessToken = Platform.Function.ParseJSON(raccessTokenResult["Response"][0]).accessToken;
+		   // send email via journey builder
+		   var url = "https://www.exacttargetapis.com/interaction/v1/events";
+		   var contentType = 'application/json';
+		   var payload = '{"ContactKey":"' + email + '","EventDefinitionKey":"APIEvent-9b791ff1-c4d9-85a9-8a86-40d67241a3b7","EstablishContactKey":true,"Data":{"EmailAddress":"' + email + '","VerificationCode":"' + guid + '","LoginDate":"' + logindate + '","SystemDate":"' + systemdate + '"}}';
+		   var headerName = ['Authorization'];
+		   var headerValue = ['BEARER ' + raccessToken];
+		   var accessTokenResult = HTTP.Post(url, contentType, payload,headerName, headerValue);
+		   var accessToken = Platform.Function.ParseJSON(accessTokenResult["Response"][0]).accessToken;
+		   Platform.Variable.SetValue("@domain",domain);
+		   Platform.Variable.SetValue("@email",email);
+		   Platform.Variable.SetValue("@guid",guid);
+		   Platform.Variable.SetValue("@submit",submitted);
+		}
+	};
+</script>
+<script runat=server language=ampscript>
+	IF @Submit == 'Submitted' AND @domain == 'amaysim.com.au' THEN
+		SET @secret = '4509%%4609?^%%^jklddsajk4?$^43234kjl?DFDSDF'
+		SET @HashCheck = SHA256(concat(@email,@secret, @guid, @date),"UTF-16")
+		Redirect(concat("http://pub.e.amaysim.com.au/csc-login/?h=", @HashCheck ))
+	ENDIF
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>amaysim CSC Assistant</title>
+
+		<!-- Bootstrap CSS -->
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		<style type="text/css">
+			.text-center {text-align: center !important;}
+		</style>
+
+		<script type="text/javascript">
+		    var url = 'https://api.ipify.org';
+		    var request = new XMLHttpRequest();
+		    request.onreadystatechange = function() {
+		        if (request.readyState === 4) {
+		            if (request.status === 200) {
+		                document.body.className = 'ok';
+		                document.cookie = 'ipAddress=' + request.responseText;
+		            } else {
+		                document.body.className = 'error';
+		            }
+		        }
+		    };
+		    request.open("GET", url , true);
+		    request.send(null);
+		</script>
+	</head>
+<body>
+	<div class="container">
+		<h1 >CSC Assistant - Verification</h1>
+		<br><br><br>
+		<form action="" method="post">
+		<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group">
+				<input type="hidden" value="submitted" name="submitted" >
+			    <label for="email">Email Address</label>
+			    <input type="text" class="form-control" id="email" name="email" placeholder="Enter your amaysim or click email address">
+			  </div>
+			</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-16 col-md-6 col-lg-6">
+					<button type="submit" class="btn btn-default">Submit</button>
+				</div>
+			</div>
+		</form>
+	</div>
+		<!-- jQuery -->
+		<script src="//code.jquery.com/jquery.js"></script>
+		<script src="//code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+		<!-- Bootstrap JavaScript -->
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	</body>
+</html>
