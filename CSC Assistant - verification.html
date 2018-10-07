@@ -23,15 +23,16 @@
 
 	var submitted = Request.GetFormField('submitted');
 	var ip = Platform.Request.GetCookieValue('ipAddress');
-	var ipcheck = Platform.Function.LookupRows('IP_Addresses_amaysim','IP_Address',ip);
+</script>
+%%[
 
-	if (ipcheck.length == 0){
-		Write("Access Denied<br>");
-		RaiseError("Access Denied");
-	}
+SET @ipcheck = IIF(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address',@ip)) == '0',RaiseError('Access Denied: Unregistered IP address'),'Access granted')
 
-	//Write('IpCheck: ' + Stringify(ipcheck) + '<br>');
-	if (submitted === 'submitted' && ipcheck.length > 0) {
+]%%
+<script>
+
+	var ipcheck = Variable.GetValue("@ipcheck");
+	if (submitted === 'submitted' && ipcheck === 'Access granted') {
 		var email = Request.GetFormField('email');
 		var guid = Platform.Function.GUID();
 		var logindate = Variable.GetValue("@date");
