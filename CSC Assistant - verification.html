@@ -26,6 +26,8 @@
 SET @date = FormatDate(SystemdateToLocalDate(NOW()), "DD-MM-YYYY")
 SET @ipcheck = IIF(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address',@ip)) == '0',RaiseError('Access Denied: Unregistered IP address'),'Access granted')
 
+IF 
+
 ]%%
 <script runat=server>
 
@@ -67,6 +69,7 @@ SET @ipcheck = IIF(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address',@ip))
 	}
 </script>
 <script runat=server language=ampscript>
+	IF @Submit == 'Submitted' AND @domain !='amaysim.com.au' THEN RaiseError('Access Denied: unregistered domain')
 	IF @Submit == 'Submitted' AND @domain == 'amaysim.com.au' THEN
 		SET @secret = '4509%%4609?^%%^jklddsajk4?$^43234kjl?DFDSDF'
 		SET @HashCheck = SHA256(concat(@email,@secret, @guid, @date),"UTF-16")
