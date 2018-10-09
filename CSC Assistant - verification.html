@@ -27,7 +27,7 @@ SET @date = FormatDate(SystemdateToLocalDate(NOW()), "DD-MM-YYYY")
 SET @ipcheck = IIF(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address',@ip)) == '0',RaiseError('Access Denied: Unregistered IP address'),'Access granted')
 
 ]%%
-<script>
+<script runat=server>
 
 	var ipcheck = Variable.GetValue("@ipcheck");
 	if (submitted === 'submitted' && ipcheck === 'Access granted') {
