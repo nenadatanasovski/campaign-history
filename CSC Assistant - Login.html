@@ -54,10 +54,11 @@ SET @submit = requestparameter("submitted")
 
 IF @submit == 'submitted' AND NOT EMPTY(@secretHash) AND @secretHash != '' THEN
     SET @Email = requestparameter("email")
+    SET @password = requestparameter("password")
     SET @GUID = Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate Desc','EmailAddress',@Email),'1'),'VerificationCode')
 	SET @HashCheck = SHA256(concat(@email,@secret,@GUID, @date),"UTF-16")
 
-	IF /*@HashCheck != @secretHash OR */ @GUID != requestparameter("password") THEN
+	IF /*@HashCheck != @secretHash OR */ @GUID != @password THEN
 		Redirect('http://pub.e.amaysim.com.au/csc-verification')
 ELSE
 	Redirect(concat('http://pub.e.amaysim.com.au/csc-enter-email/?e=',@email, '&h=', @HashCheck))
