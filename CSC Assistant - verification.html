@@ -69,7 +69,7 @@ IF
 	}
 </script>
 <script runat=server language=ampscript>
-	IF @Submit == 'Submitted' AND @domain !='amaysim.com.au' THEN RaiseError('Access Denied: unregistered domain')
+	IF @Submit == 'Submitted' AND @domain !='amaysim.com.au' THEN RaiseError('Access Denied: unregistered domain') ENDIF
 	IF @Submit == 'Submitted' AND @domain == 'amaysim.com.au' THEN
 		SET @secret = '4509%%4609?^%%^jklddsajk4?$^43234kjl?DFDSDF'
 		SET @HashCheck = SHA256(concat(@email,@secret, @guid, @date),"UTF-16")
