@@ -26,8 +26,6 @@
 SET @date = FormatDate(SystemdateToLocalDate(NOW()), "DD-MM-YYYY")
 SET @ipcheck = IIF(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address',@ip)) == '0',RaiseError('Access Denied: Unregistered IP address'),'Access granted')
 
-IF 
-
 ]%%
 <script runat=server>
 
