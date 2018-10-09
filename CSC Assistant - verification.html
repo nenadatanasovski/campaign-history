@@ -1,8 +1,4 @@
-<script runat=server language=ampscript>
-	SET @date = FormatDate(SystemdateToLocalDate(NOW()), "DD-MM-YYYY")
-</script>
-
-		<script type="text/javascript">
+<script type="text/javascript">
 		    var url = 'https://api.ipify.org';
 		    var request = new XMLHttpRequest();
 		    request.onreadystatechange = function() {
@@ -27,6 +23,7 @@
 </script>
 %%[
 
+SET @date = FormatDate(SystemdateToLocalDate(NOW()), "DD-MM-YYYY")
 SET @ipcheck = IIF(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address',@ip)) == '0',RaiseError('Access Denied: Unregistered IP address'),'Access granted')
 
 ]%%
@@ -67,7 +64,7 @@ SET @ipcheck = IIF(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address',@ip))
 		   Platform.Variable.SetValue("@guid",guid);
 		   Platform.Variable.SetValue("@submit",submitted);
 		}
-	};
+	}
 </script>
 <script runat=server language=ampscript>
 	IF @Submit == 'Submitted' AND @domain == 'amaysim.com.au' THEN
