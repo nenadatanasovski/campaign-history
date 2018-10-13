@@ -54,7 +54,7 @@ SET @submit = requestparameter("submitted")
 
 IF @submit == 'submitted' AND NOT EMPTY(@secretHash) AND @secretHash != '' THEN
     SET @Email = requestparameter("email")
-    SET @password = requestparameter("password")
+    SET @password = Trim(requestparameter("password"))
     SET @GUID = Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate Desc','EmailAddress',@Email),'1'),'VerificationCode')
 	SET @HashCheck = SHA256(concat(@Email,@secret,@GUID, @date),"UTF-16")
 
