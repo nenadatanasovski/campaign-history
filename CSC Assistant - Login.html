@@ -61,7 +61,7 @@ IF @submit == 'submitted' AND NOT EMPTY(@secretHash) AND @secretHash != '' THEN
 IIF(@HashCheck != @secretHash OR @GUID != @password,
 	Redirect('http://pub.e.amaysim.com.au/csc-verification'),
 		Redirect(concat('http://pub.e.amaysim.com.au/csc-enter-email/?e=',@Email, '&h=', @HashCheck)))
-
+ENDIF
 ]%%
 
 </head>
