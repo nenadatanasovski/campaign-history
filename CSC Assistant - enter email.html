@@ -131,7 +131,7 @@ FOR @i = 1 to Rowcount(@Sent) DO
  SET @EventID = Field(@row,'EventID')
  SET @SubjectLine = Lookup('GEAL_DV','SubjectLine','EventID',@EventID)
  SET @Preheader = Lookup('GEAL_DV','Preheader','EventID',@EventID)
- SET @DateSent = Lookup('GEAL_DV','DateSent','EventID',@EventID)
+ SET @DateSent = FormatDate(Lookup('GEAL_DV','DateSent','EventID',@EventID),"DD-MM-YYYY")
  SET @EmailName = Lookup('GEAL_DV','EmailName','EventID',@EventID)
  SET @Bounced = Lookup('GEAL_DV','Bounced','EventID',@EventID)
  SET @DateOpened = Lookup('GEAL_DV','DateOpened','EventID',@EventID)
@@ -141,7 +141,7 @@ FOR @i = 1 to Rowcount(@Sent) DO
     <td>%%=v(@EmailName)=%%</td>
     <td class="text-center">%%=v(@SubjectLine)=%%</td>
     <td class="text-center">%%=v(@Preheader)=%%</td>
-    <td class="text-center">%%=v(@DateSent)=%%</td>
+    <td class="text-center">%%=FormatDate(@DateSent,"DD-MM-YYYY")=%%</td>
     <td class="text-center">%%=v(@Bounced)=%%</td>
     <td class="text-center">%%=v(@DateOpened)=%%</td>
 <td class="text-center"><a href="%%=v(@ViewOnlineURL)=%%">Open</a></td>
