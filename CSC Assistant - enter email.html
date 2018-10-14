@@ -110,7 +110,7 @@ SET @Sent = LookupOrderedRows('GEAL_DV','0','DateSent Desc','EmailAddress', @Cus
 
 
 ]%%
-<h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;"><center>Email address: %%=v(@CustomerEmail)=%% | (%%=v(@EmailSubscriptionStatus)=%%)</center></h3>
+<h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;"><center>Marketing email subscription to email address: %%=v(@CustomerEmail)=%% is (%%=v(@EmailSubscriptionStatus)=%%)</center></h3>
 <br><br>
 <h3>&nbsp;Email sends </h3>
 <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
