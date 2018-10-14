@@ -137,7 +137,7 @@ FOR @i = 1 to Rowcount(@Sent) DO
  SET @DateOpened = Lookup('GEAL_DV','DateOpened','EventID',@EventID)
  SET @ViewOnlineURL = Concat('http://pub.e.amaysim.com.au/htmlpreview/?qp=',@EventID)
 
-]%%%%[ IF @DateSent >= @D1 AND @DateSent <= DateAdd(@D2,'D','1') THEN ]%%
+]%%%%[ IF @DateSent >= @D1 AND @DateSent <= DateAdd(StringToDate(@D2),'D','1') THEN ]%%
     <td>%%=v(@EmailName)=%%</td>
     <td class="text-center">%%=v(@SubjectLine)=%%</td>
     <td class="text-center">%%=v(@Preheader)=%%</td>
