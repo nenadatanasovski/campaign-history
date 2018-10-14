@@ -106,11 +106,11 @@ SET @D1 = requestParameter('D1')
 SET @D2 = requestParameter('D2')
 SET @CustomerEmail = requestParameter('email')
 SET @EmailSubscriptionStatus = Lookup('ent._Subscribers','Status','EmailAddress', @CustomerEmail)
-SET @Sent = LookupOrderedRows('GEAL_DV','0','DateSent Desc','EmailAddress', @CustomerEmail)
+SET @Sent = LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @CustomerEmail)
 
 
 ]%%
-<h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;"><center>Marketing email subscription to email address: %%=v(@CustomerEmail)=%% is (%%=v(@EmailSubscriptionStatus)=%%)</center></h3>
+<h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;"><center>Marketing email subscription status for email address: %%=v(@CustomerEmail)=%% is %%=v(@EmailSubscriptionStatus)=%%</center></h3>
 <br><br>
 <h3>&nbsp;Email sends </h3>
 <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
