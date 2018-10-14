@@ -53,7 +53,7 @@ SET @date = FormatDate(SystemdateToLocalDate(NOW()), "DD-MM-YYYY")
 SET @submit = requestparameter("submitted")
 
 IF @submit == 'submitted' THEN
-    SET @Email = requestparameter("email")
+    SET @Email = Trim(requestparameter("email"))
     SET @password = Trim(requestparameter("password"))
     SET @GUID = Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate Desc','EmailAddress',@Email),'1'),'VerificationCode')
     SET @LoginDate = FormatDate(StringToDate(Field(Row(LookupOrderedRows('CSC_Verification_System',0,'LoginDate DESC','VerificationCode',@GUID),'1'),'LoginDate')),"DD-MM-YYYY")
