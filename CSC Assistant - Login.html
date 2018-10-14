@@ -5,7 +5,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CSC Assistant</title>
-
 <!-- Bootstrap CSS -->
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -25,11 +24,7 @@
             if (request.status === 200) {
                 document.body.className = 'ok';
                 document.cookie = 'ipAddress=' + request.responseText;
-            } else {
-                document.body.className = 'error';
-            }
-        }
-    };
+            } else { document.body.className = 'error';}}};
     request.open("GET", url , true);
     request.send(null);
 </script>
@@ -37,20 +32,15 @@
     Platform.Load("Core","1");
     var ip = Platform.Request.GetCookieValue('ipAddress');
 	Variable.SetValue("@ip",ip);
-
 </script>
 %%[
-
 SET @ipcheck = IIF(IsNull(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address',@ip))),RaiseError('Access Denied: Unregistered IP address'),'Access granted')
-
 ]%%%%[
 /* Get Safety params */
 SET @secretHash = QueryParameter('h')
-
 SET @secret = '4509%%4609?^%%^jklddsajk4?$^43234kjl?DFDSDF'
 SET @EventID = GUID()
 SET @submit = requestparameter("submitted")
-
 IF @submit == 'submitted' THEN
     SET @Email = Trim(requestparameter("email"))
     SET @password = Trim(requestparameter("password"))
@@ -58,21 +48,17 @@ IF @submit == 'submitted' THEN
     SET @date = FormatDate(SystemdateToLocalDate(NOW()), "DD-MM-YYYY")
     SET @LoginDate = FormatDate(StringToDate(Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate DESC','VerificationCode',@GUID),'1'),'LoginDate')),"DD-MM-YYYY")
 	SET @HashCheck = SHA256(concat(@Email,@secret,@GUID, @date),"UTF-16")
-
 IIF(@HashCheck != @secretHash OR @date != @LoginDate,
 	Redirect('http://pub.e.amaysim.com.au/csc-verification'),
 		Redirect(concat('http://pub.e.amaysim.com.au/csc-enter-email/?e=',@Email, '&h=', @HashCheck)))
 ENDIF
 ]%%
-
 </head>
 <body>
-
 	<div class="container">
 		<h1>CSC Assistant - Login</h1>
 		<br><br><br>
 		<form action="" method="post">
-
 			<div class="row">
 				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 					<div class="form-group">
@@ -87,14 +73,12 @@ ENDIF
 				    <input type="password" class="form-control" id="password" name="password" placeholder="Paste verification code here">
 				  </div>
 				</div>
-
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-16 col-md-6 col-lg-6">
 					<button type="submit" class="btn btn-default">Submit</button>
 				</div>
 			</div>
-
 		</form>
 	</div>
 </body>

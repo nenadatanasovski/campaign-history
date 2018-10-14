@@ -31,11 +31,7 @@
             if (request.status === 200) {
                 document.body.className = 'ok';
                 document.cookie = 'ipAddress=' + request.responseText;
-            } else {
-                document.body.className = 'error';
-            }
-        }
-    };
+            } else { document.body.className = 'error';}}};
     request.open("GET", url , true);
     request.send(null);
 </script>
@@ -129,7 +125,7 @@ SET @Sent = LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @Custo
     <td>%%=v(@EmailName)=%%</td>
     <td class="text-center">%%=v(@SubjectLine)=%%</td>
     <td class="text-center">%%=v(@Preheader)=%%</td>
-    <td class="text-center">%%=FormatDate(@DateSent,"DD-MM-YYYY")=%%</td>
+    <td class="text-center">%%=@DateSent)=%%</td>
     <td class="text-center">%%=v(@Bounced)=%%</td>
     <td class="text-center">%%=v(@DateOpened)=%%</td>
 <td class="text-center"><a href="%%=v(@ViewOnlineURL)=%%">Open</a></td>
