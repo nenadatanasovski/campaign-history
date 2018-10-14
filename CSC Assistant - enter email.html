@@ -56,11 +56,11 @@ SET @Email = QueryParameter('e')
 SET @secret = '4509%%4609?^%%^jklddsajk4?$^43234kjl?DFDSDF'
 SET @date = FormatDate(SystemdateToLocalDate(NOW()), "DD-MM-YYYY")
 
-SET @GUID = Field(Row(LookupOrderedRows('CSC_Verification_System',0,'LoginDate Desc','EmailAddress',@Email),'1'),'VerificationCode')
-SET @LoginDate = FormatDate(StringToDate(Field(Row(LookupOrderedRows('CSC_Verification_System',0,'LoginDate DESC','VerificationCode',@GUID),'1'),'LoginDate')),"DD-MM-YYYY")
+SET @GUID = Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate Desc','EmailAddress',@Email),'1'),'VerificationCode')
+SET @LoginDate = FormatDate(StringToDate(Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate DESC','VerificationCode',@GUID),'1'),'LoginDate')),"DD-MM-YYYY")
 SET @HashCheck = SHA256(concat(@Email,@secret, @GUID, @date),"UTF-16")
 
-IIF(@HashCheck != @secretHash OR @date != @LoginDate,
+IIF(@HashCheck != @secretHash OR @date != @LoginDate OR IsNull(@GUID),
 	Redirect('http://pub.e.amaysim.com.au/csc-verification'),'')
 ]%%
 

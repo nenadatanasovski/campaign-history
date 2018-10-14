@@ -56,7 +56,7 @@ IF @submit == 'submitted' THEN
     SET @password = Trim(requestparameter("password"))
     SET @GUID = Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate Desc','EmailAddress',@Email),'1'),'VerificationCode')
     SET @date = FormatDate(SystemdateToLocalDate(NOW()), "DD-MM-YYYY")
-    SET @LoginDate = FormatDate(StringToDate(Field(Row(LookupOrderedRows('CSC_Verification_System',0,'LoginDate DESC','VerificationCode',@GUID),'1'),'LoginDate')),"DD-MM-YYYY")
+    SET @LoginDate = FormatDate(StringToDate(Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate DESC','VerificationCode',@GUID),'1'),'LoginDate')),"DD-MM-YYYY")
 	SET @HashCheck = SHA256(concat(@Email,@secret,@GUID, @date),"UTF-16")
 
 IIF(@HashCheck != @secretHash OR @date != @LoginDate,
