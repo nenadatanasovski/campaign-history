@@ -43,27 +43,21 @@
     Platform.Load("Core","1");
     var ip = Platform.Request.GetCookieValue('ipAddress');
   Variable.SetValue("@ip",ip);
-
 </script>
 %%[
-
 SET @ipcheck = IIF(IsNull(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address',@ip))),RaiseError('Access Denied: Unregistered IP address'),'Access granted')
-
 ]%%%%[
 /* Get Safety params */
 SET @secretHash = QueryParameter('h')
 SET @Email = QueryParameter('e')
 SET @secret = '4509%%4609?^%%^jklddsajk4?$^43234kjl?DFDSDF'
 SET @date = FormatDate(SystemdateToLocalDate(NOW()), "DD-MM-YYYY")
-
 SET @GUID = Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate Desc','EmailAddress',@Email),'1'),'VerificationCode')
 SET @LoginDate = FormatDate(StringToDate(Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate DESC','VerificationCode',@GUID),'1'),'LoginDate')),"DD-MM-YYYY")
 SET @HashCheck = SHA256(concat(@Email,@secret, @GUID, @date),"UTF-16")
-
 IIF(@HashCheck != @secretHash OR @date != @LoginDate OR IsNull(@GUID),
 	Redirect('http://pub.e.amaysim.com.au/csc-verification'),'')
 ]%%
-
 <body>
 <div class="container">
 	<h1>CSC Assistant - Campaign history</h1>
@@ -99,7 +93,6 @@ IIF(@HashCheck != @secretHash OR @date != @LoginDate OR IsNull(@GUID),
 		    </div>
 	</form><br><br><br><br>
 %%[
-
 SET @submit = requestparameter("submitted")
 IF @submit == 'submitted' THEN
 SET @D1 = requestParameter('D1')
@@ -107,8 +100,6 @@ SET @D2 = requestParameter('D2')
 SET @CustomerEmail = requestParameter('email')
 SET @EmailSubscriptionStatus = Lookup('ent._Subscribers','Status','EmailAddress', @CustomerEmail)
 SET @Sent = LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @CustomerEmail)
-
-
 ]%%
 <h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;"><center>Marketing email subscription status for email address: %%=v(@CustomerEmail)=%% is %%=v(@EmailSubscriptionStatus)=%%</center></h3>
 <br><br>
@@ -124,9 +115,7 @@ SET @Sent = LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @Custo
       <th class="text-center">View</th>
     </tr>
 <tr></tr>
-
-%%[
-FOR @i = 1 to Rowcount(@Sent) DO
+%%[ FOR @i = 1 to Rowcount(@Sent) DO
  SET @row = Row(@Sent, @i)
  SET @EventID = Field(@row,'EventID')
  SET @SubjectLine = Lookup('GEAL_DV','SubjectLine','EventID',@EventID)
@@ -136,8 +125,7 @@ FOR @i = 1 to Rowcount(@Sent) DO
  SET @Bounced = Lookup('GEAL_DV','Bounced','EventID',@EventID)
  SET @DateOpened = Lookup('GEAL_DV','DateOpened','EventID',@EventID)
  SET @ViewOnlineURL = Concat('http://pub.e.amaysim.com.au/htmlpreview/?qp=',@EventID)
-
-]%%%%[ IF @DateSent >= @D1 AND @DateSent <= DateAdd(StringToDate(@D2),'D','1') THEN ]%%
+]%%%%[ IF @DateSent >= @D1 AND @DateSent <= DateAdd(StringToDate(@D2),'1','D') THEN ]%%
     <td>%%=v(@EmailName)=%%</td>
     <td class="text-center">%%=v(@SubjectLine)=%%</td>
     <td class="text-center">%%=v(@Preheader)=%%</td>
@@ -145,10 +133,9 @@ FOR @i = 1 to Rowcount(@Sent) DO
     <td class="text-center">%%=v(@Bounced)=%%</td>
     <td class="text-center">%%=v(@DateOpened)=%%</td>
 <td class="text-center"><a href="%%=v(@ViewOnlineURL)=%%">Open</a></td>
-  </tr>
+</tr>
 %%[ ENDIF ]%%%%[ NEXT @u ENDIF NEXT @i ENDIF ]%%
-
 </table>
 </div>
-  </body>
+</body>
 </html>
