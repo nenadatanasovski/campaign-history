@@ -6,31 +6,23 @@
 		            if (request.status === 200) {
 		                document.body.className = 'ok';
 		                document.cookie = 'ipAddress=' + request.responseText;
-		            } else {
-		                document.body.className = 'error';
-		            }
-		        }
-		    };
+		            } else { document.body.className = 'error';}}};
 		    request.open("GET", url , true);
 		    request.send(null);
 		</script>
 <script runat=server>
 	Platform.Load("Core","1");
-
 	var submitted = Request.GetFormField('submitted');
 	var ip = Platform.Request.GetCookieValue('ipAddress');
 	Variable.SetValue("@ip",ip);
 </script>
 %%[
-
 SET @date = FormatDate(SystemdateToLocalDate(NOW()), "DD-MM-YYYY")
 SET @ipcheck = IIF(IsNull(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address',@ip))),RaiseError('Access Denied: Unregistered IP address'),'Access granted')
-
 ]%%
 <script runat=server>
-
 	var ipcheck = Variable.GetValue("@ipcheck");
-	if (submitted === 'submitted' && ipcheck === 'Access granted') {
+	if (submitted == 'submitted' && ipcheck == 'Access granted') {
 		var email = Request.GetFormField('email');
 		var guid = Platform.Function.GUID();
 		var logindate = Variable.GetValue("@date");
@@ -54,7 +46,7 @@ SET @ipcheck = IIF(IsNull(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address
 		   // send email via journey builder
 		   var url = "https://www.exacttargetapis.com/interaction/v1/events";
 		   var contentType = 'application/json';
-		   var payload = '{"ContactKey":"' + email + '","EventDefinitionKey":"APIEvent-9b791ff1-c4d9-85a9-8a86-40d67241a3b7","EstablishContactKey":true,"Data":{"EmailAddress":"' + email + '","VerificationCode":"' + guid + '","LoginDate":"' + logindate + '","SystemDate":"' + systemdate + '"}}';
+		   var payload = '{"ContactKey":"' + email + '","EventDefinitionKey":"APIEvent-9b791ff1-c4d9-85a9-8a86-40d67241a3b7","EstablishContactKey":true,"Data":{"EmailAddress":"' + email + '","VerificationCode":"' + guid + '","LoginDate":"' + logindate + '"}}';
 		   var headerName = ['Authorization'];
 		   var headerValue = ['BEARER ' + raccessToken];
 		   var accessTokenResult = HTTP.Post(url, contentType, payload,headerName, headerValue);
@@ -62,18 +54,15 @@ SET @ipcheck = IIF(IsNull(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address
 		   Platform.Variable.SetValue("@domain",domain);
 		   Platform.Variable.SetValue("@email",email);
 		   Platform.Variable.SetValue("@guid",guid);
-		   Platform.Variable.SetValue("@submit",submitted);
-		}
-	}
+		   Platform.Variable.SetValue("@submit",submitted);}}
 </script>
 <script runat=server language=ampscript>
-	IF @Submit == 'Submitted' AND @domain == 'amaysim.com.au' THEN
+	IF @submit == 'submitted' AND @domain == 'amaysim.com.au' THEN
 		SET @secret = '4509%%4609?^%%^jklddsajk4?$^43234kjl?DFDSDF'
 		SET @HashCheck = SHA256(concat(@email,@secret, @guid, @date),"UTF-16")
 		Redirect(concat("http://pub.e.amaysim.com.au/csc-login/?h=", @HashCheck ))
 	ENDIF
 </script>
-
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -81,7 +70,6 @@ SET @ipcheck = IIF(IsNull(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>amaysim CSC Assistant</title>
-
 		<!-- Bootstrap CSS -->
 		<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
