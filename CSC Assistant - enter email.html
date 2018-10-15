@@ -94,7 +94,7 @@ IF @submit == 'submitted' THEN
 SET @D1 = requestParameter('D1')
 SET @D2 = requestParameter('D2')
 SET @CustomerEmail = Trim(requestParameter('email'))
-SET @EmailSubscriptionStatus = IIF(IsNull(Lookup('ent._Subscribers','Status','EmailAddress', @CustomerEmail)),'not found in system',Lookup('ent._Subscribers','Status','EmailAddress', @CustomerEmail))
+SET @EmailSubscriptionStatus = IIF(IsNull(LookupRows('ent._Subscribers','EmailAddress', @CustomerEmail)),'not found in system',Lookup('ent._Subscribers','Status','EmailAddress', @CustomerEmail))
 SET @Sent = IIF(IsNull(LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @CustomerEmail)),'0',LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @CustomerEmail))
 ]%%
 <h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;"><center>Marketing email subscription status for email address: %%=v(@CustomerEmail)=%% is %%=v(@EmailSubscriptionStatus)=%%</center></h3>
@@ -138,7 +138,7 @@ SET @mobileSRowCount = RowCount(@mobileRowSet)
 </tr>
 </table>
 <br><br>
-%%[ NEXT @u ENDIF ]%%%%[ IF RowCount(@Sent) != '0' THEN ]%%
+%%[ NEXT @u ENDIF ]%%%%[ ENDIF ]%%%%[ IF RowCount(@Sent) != '0' THEN ]%%
 <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
 <h3>&nbsp;Email sends </h3>
     <tr>
@@ -176,7 +176,7 @@ SET @mobileSRowCount = RowCount(@mobileRowSet)
     <td class="text-center">%%=v(@DateOpened)=%%</td>
     <td class="text-center"><a href="%%=v(@ViewOnlineURL)=%%">Open</a></td>
 </tr>
-%%[ ENDIF ]%%%%[ NEXT @i ENDIF ]%%%%[ ENDIF ]%%%%[ ENDIF ]%%
+%%[ ENDIF ]%%%%[ NEXT @i ENDIF ]%%%%[ ENDIF ]%%
 </table>
 </div>
 </body>
