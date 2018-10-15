@@ -52,41 +52,41 @@ SET @GUID = Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate 
 SET @LoginDate = FormatDate(StringToDate(Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate DESC','VerificationCode',@GUID),'1'),'LoginDate')),"DD-MM-YYYY")
 SET @HashCheck = SHA256(concat(@Email,@secret, @GUID, @date),"UTF-16")
 IIF(@HashCheck != @secretHash OR @date != @LoginDate OR IsNull(@GUID),
-	Redirect('http://pub.e.amaysim.com.au/csc-verification'),'')
+  Redirect('http://pub.e.amaysim.com.au/csc-verification'),'')
 ]%%
 <body>
 <div class="container">
-	<h1>CSC Assistant - Campaign history</h1>
-	<br><br><br>
-	<form action="" method="post"> 
-			<div class="row">
-				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-					<div class="form-group">
-				<input type="hidden" value="submitted" name="submitted" >
-			    <label for="email">Customer Email Address</label>
-			    <input type="text" class="form-control" id="email" name="email" placeholder="Enter customer's email address">
-			  </div>
-			</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-					<div class="form-group">
-			    <label for="number">Start date range</label>
-			    <input type="date" class="form-control" id="e1" name="D1" placeholder="Date range">
-			  </div>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-					<div class="form-group">
-			    <label for="number">End date range</label>
-			    <input type="date" class="form-control" id="e1" name="D2" placeholder="Date range">
-			  </div>
-			</div>
-			</div>
-			<div>
-				<div class="col-xs-12 col-sm-16 col-md-6 col-lg-6">
-					<button type="submit" class="btn btn-default">Submit</button>
-				</div>
-		    </div>
+  <h1>CSC Assistant - Campaign history</h1>
+  <br><br><br>
+  <form action="" method="post"> 
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <div class="form-group">
+        <input type="hidden" value="submitted" name="submitted" >
+          <label for="email">Customer Email Address</label>
+          <input type="text" class="form-control" id="email" name="email" placeholder="Enter customer's email address">
+        </div>
+      </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <div class="form-group">
+          <label for="number">Start date range</label>
+          <input type="date" class="form-control" id="e1" name="D1" placeholder="Date range">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <div class="form-group">
+          <label for="number">End date range</label>
+          <input type="date" class="form-control" id="e1" name="D2" placeholder="Date range">
+        </div>
+      </div>
+      </div>
+      <div>
+        <div class="col-xs-12 col-sm-16 col-md-6 col-lg-6">
+          <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+        </div>
 </form><br><br><br><br>
 %%[
 SET @submit = requestparameter("submitted")
@@ -176,7 +176,7 @@ SET @mobileSRowCount = RowCount(@mobileRowSet)
     <td class="text-center">%%=v(@DateOpened)=%%</td>
     <td class="text-center"><a href="%%=v(@ViewOnlineURL)=%%">Open</a></td>
 </tr>
-%%[ ENDIF ]%%%%[ NEXT @i ENDIF ]%%%%[ ENDIF ]%%
+%%[ ENDIF ]%%%%[ NEXT @i ENDIF ]%%
 </table>
 </div>
 </body>
