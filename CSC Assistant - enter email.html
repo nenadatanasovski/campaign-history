@@ -96,7 +96,7 @@ SET @D2 = requestParameter('D2')
 SET @CustomerEmail = Trim(requestParameter('email'))
 SET @EmailSubscriptionStatus = Lookup('ent._Subscribers','Status','EmailAddress', @CustomerEmail)
 SET @Sent = LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @CustomerEmail)
-]%%%%[ IF IsNull(LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @CustomerEmail) THEN '' ELSE ]%%
+]%%
 <h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;"><center>Marketing email subscription status for email address: %%=v(@CustomerEmail)=%% is %%=v(@EmailSubscriptionStatus)=%%</center></h3>
 <br><br>
 %%[ 
@@ -138,10 +138,9 @@ SET @mobileSRowCount = RowCount(@mobileRowSet)
 </tr>
 </table>
 <br><br>
-%%[ NEXT @u ENDIF ]%%
+%%[ NEXT @u ENDIF ]%%%%[ IF IsNull(@Sent) THEN '' ELSE ]%%
 <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
 <h3>&nbsp;Email sends </h3>
-<table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
     <tr>
       <th class="text-center">Email&nbsp;Name</th>
       <th class="text-center">Subject</th>
