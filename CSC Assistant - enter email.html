@@ -106,7 +106,7 @@ SET @mobileRowSet = LookupOrderedRows('mobile_services',0,'sfmc_date_added DESC'
 SET @mobileService = IIF(IsNull(@mobileRowSet),'0','1')
 SET @mobileSRowCount = RowCount(@mobileRowSet)
 ]%%%%[ IF @mobileService == '1' THEN ]%%
-<h3>&nbsp;Mobile service(s) </h3>
+<br><br><h3>&nbsp;Mobile service(s) </h3>
 <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
     <tr>
       <th class="text-center">Mobile&nbsp;Number</th>
@@ -123,12 +123,12 @@ SET @mobileSRowCount = RowCount(@mobileRowSet)
  SET @serviceID = Field(@Mrow,'service_id')
  SET @MMobileNumber = Lookup('mobile_services','mobile_number','service_id',@serviceID)
  SET @MService = Lookup('mobile_services','plan1_retail_name','service_id',@serviceID)
- SET @MAutoTopup = Lookup('mobile_services','mobile_number','service_id',@serviceID)
- SET @MDataPack = Lookup('mobile_services','auto_top_up','service_id',@serviceID)
- SET @MStatusService = Lookup('mobile_services','plan2_retail_name','service_id',@serviceID)
- SET @MSMSMKT = Lookup('mobile_services','phone_status_current_code','service_id',@serviceID)
+ SET @MAutoTopup = Lookup('mobile_services','auto_top_up','service_id',@serviceID)
+ SET @MDataPack = Lookup('mobile_services','plan2_retail_name','service_id',@serviceID)
+ SET @MStatusService = Lookup('mobile_services','phone_status_current_code','service_id',@serviceID)
+ SET @MSMSMKT = Lookup('mobile_services','marketing_opt_in','service_id',@serviceID)
 ]%%
-    <td>%%=v(@MMobileNumber)=%%</td>
+    <td class="text-center">%%=v(@MMobileNumber)=%%</td>
     <td class="text-center">%%=v(@MService)=%%</td>
     <td class="text-center">%%=v(@MAutoTopup)=%%</td>
     <td class="text-center">%%=v(@DateSent)=%%</td>
@@ -168,13 +168,13 @@ SET @mobileSRowCount = RowCount(@mobileRowSet)
  SET @deviceItem = IIF(IsNull(LookupRows('technology_transactions','subscriber_key',@SubscriberKey)),'0','1')
  SET @deviceIRowCount = RowCount(LookupRows('technology_transactions','subscriber_key',@SubscriberKey))
 ]%%%%[ IF @DateSent >= @D1 AND @DateSent <= DateAdd(StringToDate(@D2),'1','D') THEN ]%%
-    <td>%%=v(@EmailName)=%%</td>
+    <td class="text-center">%%=v(@EmailName)=%%</td>
     <td class="text-center">%%=v(@SubjectLine)=%%</td>
     <td class="text-center">%%=v(@Preheader)=%%</td>
     <td class="text-center">%%=v(@DateSent)=%%</td>
     <td class="text-center">%%=v(@Bounced)=%%</td>
     <td class="text-center">%%=v(@DateOpened)=%%</td>
-<td class="text-center"><a href="%%=v(@ViewOnlineURL)=%%">Open</a></td>
+    <td class="text-center"><a href="%%=v(@ViewOnlineURL)=%%">Open</a></td>
 </tr>
 %%[ ENDIF ]%%%%[ NEXT @i ENDIF ]%%
 </table>
