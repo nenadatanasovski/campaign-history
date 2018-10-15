@@ -93,7 +93,7 @@ SET @submit = requestparameter("submitted")
 IF @submit == 'submitted' THEN
 SET @D1 = requestParameter('D1')
 SET @D2 = requestParameter('D2')
-SET @CustomerEmail = requestParameter('email')
+SET @CustomerEmail = Trim(requestParameter('email'))
 SET @EmailSubscriptionStatus = Lookup('ent._Subscribers','Status','EmailAddress', @CustomerEmail)
 SET @Sent = LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @CustomerEmail)
 ]%%
