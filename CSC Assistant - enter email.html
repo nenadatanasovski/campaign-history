@@ -94,7 +94,7 @@ IF @submit == 'submitted' THEN
 SET @D1 = requestParameter('D1')
 SET @D2 = requestParameter('D2')
 SET @CustomerEmail = Trim(requestParameter('email'))
-SET @EmailSubscriptionStatus = Lookup('ent._Subscribers','Status','EmailAddress', @CustomerEmail)
+SET @EmailSubscriptionStatus = IIF(IsNull(Lookup('ent._Subscribers','Status','EmailAddress', @CustomerEmail),'not found in system',Lookup('ent._Subscribers','Status','EmailAddress', @CustomerEmail))
 SET @Sent = IIF(IsNull(LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @CustomerEmail)),'0',LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @CustomerEmail))
 ]%%
 <h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;"><center>Marketing email subscription status for email address: %%=v(@CustomerEmail)=%% is %%=v(@EmailSubscriptionStatus)=%%</center></h3>
