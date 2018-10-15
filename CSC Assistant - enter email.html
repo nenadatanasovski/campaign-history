@@ -93,16 +93,16 @@ SET @submit = requestparameter("submitted")
 IF @submit == 'submitted' THEN
 SET @D1 = requestParameter('D1')
 SET @D2 = requestParameter('D2')
-SET @CustomerEmail = requestParameter('email')
+SET @CustomerEmail = Trim(requestParameter('email'))
 SET @EmailSubscriptionStatus = Lookup('ent._Subscribers','Status','EmailAddress', @CustomerEmail)
 SET @Sent = LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @CustomerEmail)
 ]%%
 <h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;"><center>Marketing email subscription status for email address: %%=v(@CustomerEmail)=%% is %%=v(@EmailSubscriptionStatus)=%%</center></h3>
 <br><br>
 %%[ 
-SET @SubscriberID = Lookup('GEAL_DV','SubscriberID','EmailAddress',@EmailAddress)
+SET @SubscriberID = Lookup('GEAL_DV','SubscriberID','EmailAddress',@CustomerEmail)
 SET @SubscriberKey = Lookup('ent._Subscribers','SubscriberKey', 'SubscriberID',@SubscriberID)
-SET @mobileRowSet = LookupRows('mobile_services','subscriber_key',@SubscriberKey)
+SET @mobileRowSet = LookupOrderedRows('mobile_services',0,'sfmc_date_added DESC','subscriber_key',@SubscriberKey)
 SET @mobileService = IIF(IsNull(@mobileRowSet),'0','1')
 SET @mobileSRowCount = RowCount(@mobileRowSet)
 ]%%%%[ IF @mobileService == '1' THEN ]%%
