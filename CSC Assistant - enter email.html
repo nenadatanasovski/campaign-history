@@ -99,7 +99,7 @@ SET @Sent = LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @Custo
 ]%%
 <h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;"><center>Marketing email subscription status for email address: %%=v(@CustomerEmail)=%% is %%=v(@EmailSubscriptionStatus)=%%</center></h3>
 <br><br>
-%%%[ IF @EmailSubscriptionStatus != 'not found in system' THEN
+%%[ IF @EmailSubscriptionStatus != 'not found in system' THEN
 SET @SubscriberID = Lookup('GEAL_DV','SubscriberID','EmailAddress',@CustomerEmail)
 SET @SubscriberKey = Lookup('ent._Subscribers','SubscriberKey', 'SubscriberID',@SubscriberID)
 SET @mobileRowSet = LookupOrderedRows('mobile_services',0,'sfmc_date_added DESC','subscriber_key',@SubscriberKey)
