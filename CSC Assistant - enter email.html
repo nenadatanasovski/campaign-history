@@ -138,7 +138,6 @@ SET @Sent = LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @Custo
     <td class="text-center">%%=v(@DateOpened)=%%</td>
 <td class="text-center"><a href="%%=v(@ViewOnlineURL)=%%">Open</a></td>
 </tr>
-%%[ ENDIF ]%%
 %%[ 
  SET @mobileRowSet = LookupRows('mobile_services','subscriber_key',@SubscriberKey)
  SET @mobileService = IIF(IsNull(@mobileRowSet),'0','1')
