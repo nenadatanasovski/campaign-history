@@ -96,6 +96,7 @@ SET @D2 = requestParameter('D2')
 SET @CustomerEmail = Trim(requestParameter('email'))
 SET @EmailSubscriptionStatus = IIF(IsNull(LookupRows('ent._Subscribers','EmailAddress', @CustomerEmail)),'not found in system',Lookup('ent._Subscribers','Status','EmailAddress', @CustomerEmail))
 SET @Sent = LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @CustomerEmail)
+IIF(RowCount(@Sent) < 1, Redirect('google.com.au'),'')
 ]%%
 <h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;"><center>Marketing email subscription status for email address: %%=v(@CustomerEmail)=%% is %%=v(@EmailSubscriptionStatus)=%%</center></h3>
 <br><br>
