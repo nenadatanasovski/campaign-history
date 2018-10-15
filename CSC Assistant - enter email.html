@@ -106,7 +106,7 @@ SET @mobileRowSet = LookupOrderedRows('mobile_services',0,'sfmc_date_added DESC'
 SET @mobileService = IIF(IsNull(@mobileRowSet),'0','1')
 SET @mobileSRowCount = RowCount(@mobileRowSet)
 ]%%%%[ IF @mobileService == '1' THEN ]%%
-<br><br><h3>&nbsp;Mobile service(s) </h3>
+<h3>&nbsp;Mobile service(s) </h3>
 <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
     <tr>
       <th class="text-center">Mobile&nbsp;Number</th>
@@ -136,8 +136,9 @@ SET @mobileSRowCount = RowCount(@mobileRowSet)
     <td class="text-center">%%=v(@MStatusService)=%%</td>
     <td class="text-center">%%=v(@MSMSMKT)=%%</a></td>
 </tr>
-%%[ NEXT @u ENDIF ]%%
 </table>
+<br><br>
+%%[ NEXT @u ENDIF ]%%
 <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
 <h3>&nbsp;Email sends </h3>
 <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
