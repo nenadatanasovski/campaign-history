@@ -172,9 +172,9 @@ SET @Sent = LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @Custo
     <td class="text-center">%%=v(@DateSent)=%%</td>
     <td class="text-center">%%=v(@MDataPack)=%%</td>
     <td class="text-center">%%=v(@MStatusService)=%%</td>
-<td class="text-center">%%=v(@MSMSMKT)=%%</a></td>
+    <td class="text-center">%%=v(@MSMSMKT)=%%</a></td>
 </tr>
-%%[ ENDIF ]%%%%[ NEXT @u ENDIF NEXT @i ENDIF ]%%
+%%[ NEXT @u ]%%%%[ ENDIF ]%%%%[ NEXT @i ENDIF ]%%
 </table>
 </div>
 </body>
