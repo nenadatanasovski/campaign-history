@@ -99,13 +99,13 @@ SET @Sent = IIF(IsNull(LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddre
 ]%%
 <h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;"><center>Marketing email subscription status for email address: %%=v(@CustomerEmail)=%% is %%=v(@EmailSubscriptionStatus)=%%</center></h3>
 <br><br>
-%%%[ IF @EmailSubscriptionStatus != 'not found in system' THEN ]%%%[ 
+%%%[ IF @EmailSubscriptionStatus != 'not found in system' THEN
 SET @SubscriberID = Lookup('GEAL_DV','SubscriberID','EmailAddress',@CustomerEmail)
 SET @SubscriberKey = Lookup('ent._Subscribers','SubscriberKey', 'SubscriberID',@SubscriberID)
 SET @mobileRowSet = LookupOrderedRows('mobile_services',0,'sfmc_date_added DESC','subscriber_key',@SubscriberKey)
 SET @mobileService = IIF(IsNull(@mobileRowSet),'0','1')
 SET @mobileSRowCount = RowCount(@mobileRowSet)
-]%%%%[ IF @mobileService == '1' THEN ]%%
+IF @mobileService == '1' THEN ]%%
 <h3>&nbsp;Mobile service(s) </h3>
 <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
     <tr>
@@ -138,7 +138,7 @@ SET @mobileSRowCount = RowCount(@mobileRowSet)
 </tr>
 </table>
 <br><br>
-%%[ NEXT @u ENDIF ]%%%%[ ENDIF ]%%%%[ IF RowCount(@Sent) != '0' THEN ]%%
+%%[ NEXT @u ENDIF ENDIF ]%%%%[ IF RowCount(@Sent) > 0 THEN ]%%
 <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
 <h3>&nbsp;Email sends </h3>
     <tr>
@@ -161,12 +161,6 @@ SET @mobileSRowCount = RowCount(@mobileRowSet)
  SET @Bounced = Lookup('GEAL_DV','Bounced','EventID',@EventID)
  SET @DateOpened = Lookup('GEAL_DV','DateOpened','EventID',@EventID)
  SET @ViewOnlineURL = Concat('http://pub.e.amaysim.com.au/htmlpreview/?qp=',@EventID)
- SET @broadbandService = IIF(IsNull(LookupRows('broadband_services','subscriber_key',@SubscriberKey)),'0','1')
- SET @broadbandSRowCount = RowCount(LookupRows('broadband_services','subscriber_key',@SubscriberKey))
- SET @energyService = IIF(IsNull(LookupRows('energy_services','subscriber_key',@SubscriberKey)),'0','1')
- SET @energySRowCount = RowCount(LookupRows('energy_services','subscriber_key',@SubscriberKey))
- SET @deviceItem = IIF(IsNull(LookupRows('technology_transactions','subscriber_key',@SubscriberKey)),'0','1')
- SET @deviceIRowCount = RowCount(LookupRows('technology_transactions','subscriber_key',@SubscriberKey))
 ]%%%%[ IF @DateSent >= @D1 AND @DateSent <= DateAdd(StringToDate(@D2),'1','D') THEN ]%%
     <td class="text-center">%%=v(@EmailName)=%%</td>
     <td class="text-center">%%=v(@SubjectLine)=%%</td>
