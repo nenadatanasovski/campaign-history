@@ -126,7 +126,7 @@ IF @mobileService == '1' THEN ]%%
  SET @MService = Lookup('mobile_services','plan1_retail_name','service_id',@serviceID)
  SET @MAutoTopup = Lookup('mobile_services','auto_top_up','service_id',@serviceID)
  SET @MDataPack = Lookup('mobile_services','plan2_retail_name','service_id',@serviceID)
- SET @MStatusService = Lookup('mobile_services','phone_status_current_code','service_id',@serviceID)
+ SET @MStatusService = IIF(Lookup('mobile_services','phone_status_current_code','service_id',@serviceID) == '0','Active','Inactive')
  SET @MSMSMKT = Lookup('mobile_services','marketing_opt_in','service_id',@serviceID)
 ]%%
     <td class="text-center">%%=v(@MMobileNumber)=%%</td>
