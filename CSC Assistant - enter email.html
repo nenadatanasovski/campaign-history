@@ -148,7 +148,7 @@ IF @mobileService == '1' THEN ]%%
       <th class="text-center">Preheader</th>
       <th class="text-center">Date&nbsp;Sent</th>
       <th class="text-center">Bounced</th>
-      <th class="text-center">Opened&nbsp;Date</th>
+      <th class="text-center">Opened</th>
       <th class="text-center">View</th>
     </tr>
 <tr></tr>
@@ -160,7 +160,7 @@ IF @mobileService == '1' THEN ]%%
  SET @DateSent = Lookup('GEAL_DV','DateSent','EventID',@EventID)
  SET @EmailName = Lookup('GEAL_DV','EmailName','EventID',@EventID)
  SET @Bounced = Lookup('GEAL_DV','Bounced','EventID',@EventID)
- SET @DateOpened = Lookup('GEAL_DV','DateOpened','EventID',@EventID)
+ SET @DateOpened = IIF(EMPTY(Lookup('GEAL_DV','DateOpened','EventID',@EventID)),'NO','YES')
  SET @ViewOnlineURL = Concat('http://pub.e.amaysim.com.au/htmlpreview/?qp=',@EventID)
 ]%%%%[ IF @DateSent >= @D1 AND @DateSent <= DateAdd(StringToDate(@D2),'1','D') THEN ]%%
     <td class="text-center">%%=v(@EmailName)=%%</td>
