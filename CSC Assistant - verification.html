@@ -1,178 +1,81 @@
-<!DOCTYPE html>
-<html lang="">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>amaysim</title>
-    <!-- Bootstrap CSS -->
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <link href="jquery-ui.min.css" rel="stylesheet">
-    <link href="jquery.comiseo.daterangepicker.css" rel="stylesheet">
-    <script src="jquery.min.js"></script>
-    <script src="jquery-ui.min.js"></script>
-    <script src="moment.min.js"></script>
-    <script src="jquery.comiseo.daterangepicker.js"></script>
-    <script>
-        $(function() { $("#e1").daterangepicker(); });
-    </script>
-  </head>
-  <script type="text/javascript">
-    var url = 'https://api.ipify.org';
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function() {
-        if (request.readyState === 4) {
-            if (request.status === 200) {
-                document.body.className = 'ok';
-                document.cookie = 'ipAddress=' + request.responseText;
-            } else { document.body.className = 'error';}}};
-    request.open("GET", url , true);
-    request.send(null);
-</script>
 <script runat=server>
-    Platform.Load("Core","1");
-    var ip = Platform.Request.GetCookieValue('ipAddress');
-  Variable.SetValue("@ip",ip);
+	var ipcheck = Variable.GetValue("@ipcheck");
+	if (submitted == 'submitted' && ipcheck == 'Access granted') {
+		var email = Request.GetFormField('email');
+		var guid = Platform.Function.GUID();
+		var logindate = Variable.GetValue("@date");
+		var domain = email.split("@")[1];
+ 		if (domain == 'amaysim.com.au') {
+		   // requestToken
+		   var rcontentType = 'application/json';
+		   var rurl = "https://auth.exacttargetapis.com/v1/requestToken";
+		   var rpayload = '{"clientId":"ksr489oczrig5h7xhafh5cm0","clientSecret":"bwQ8uyZKp4so91pblIIpv6m4"}';
+		   var raccessTokenResult = HTTP.Post(rurl, rcontentType, rpayload);
+		   var raccessToken = Platform.Function.ParseJSON(raccessTokenResult["Response"][0]).accessToken;
+		   // send email via journey builder
+		   var url = "https://www.exacttargetapis.com/interaction/v1/events";
+		   var contentType = 'application/json';
+		   var payload = '{"ContactKey":"' + email + '","EventDefinitionKey":"APIEvent-9b791ff1-c4d9-85a9-8a86-40d67241a3b7","EstablishContactKey":true,"Data":{"EmailAddress":"' + email + '","VerificationCode":"' + guid + '","LoginDate":"' + logindate + '"}}';
+		   var headerName = ['Authorization'];
+		   var headerValue = ['BEARER ' + raccessToken];
+		   var accessTokenResult = HTTP.Post(url, contentType, payload,headerName, headerValue);
+		   var accessToken = Platform.Function.ParseJSON(accessTokenResult["Response"][0]).accessToken;
+		   Platform.Variable.SetValue("@domain",domain);
+		   Platform.Variable.SetValue("@email",email);
+		   Platform.Variable.SetValue("@guid",guid);
+		   Platform.Variable.SetValue("@submit",submitted);}}
 </script>
-%%[
-SET @ipcheck = IIF(IsNull(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address',@ip))),RaiseError('Access Denied: Unregistered IP address'),'Access granted')
-]%%%%[
-/* Get Safety params */
-SET @secretHash = QueryParameter('h')
-SET @Email = QueryParameter('e')
-SET @secret = '4509%%4609?^%%^jklddsajk4?$^43234kjl?DFDSDF'
-SET @date = FormatDate(SystemdateToLocalDate(NOW()), "DD-MM-YYYY")
-SET @GUID = Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate Desc','EmailAddress',@Email),'1'),'VerificationCode')
-SET @LoginDate = FormatDate(StringToDate(Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate DESC','VerificationCode',@GUID),'1'),'LoginDate')),"DD-MM-YYYY")
-SET @HashCheck = SHA256(concat(@Email,@secret, @GUID, @date),"UTF-16")
-IIF(@HashCheck != @secretHash OR @date != @LoginDate OR IsNull(@GUID),
-  Redirect('http://pub.e.amaysim.com.au/csc-verification'),'')
-]%%
+<script runat=server language=ampscript>
+	IF @submit == 'submitted' AND @domain == 'amaysim.com.au' THEN
+		SET @secret = '4509%%4609?^%%^jklddsajk4?$^43234kjl?DFDSDF'
+		SET @HashCheck = SHA256(concat(@email,@secret, @guid, @date),"UTF-16")
+		Redirect(concat("http://pub.e.amaysim.com.au/csc-login/?h=", @HashCheck ))
+	ENDIF
+</script>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>amaysim CSC Assistant</title>
+		<!-- Bootstrap CSS -->
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		<style type="text/css">
+			.text-center {text-align: center !important;}
+		</style>
+	</head>
 <body>
-<div class="container">
-  <h1>CSC Assistant - Campaign history</h1>
-  <br><br><br>
-  <form action="" method="post"> 
-      <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-          <div class="form-group">
-        <input type="hidden" value="submitted" name="submitted" >
-          <label for="email">Customer Email Address</label>
-          <input type="text" class="form-control" id="email" name="email" placeholder="Enter customer's email address">
-        </div>
-      </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-          <div class="form-group">
-          <label for="number">Start date range</label>
-          <input type="date" class="form-control" id="e1" name="D1" placeholder="Date range">
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-          <div class="form-group">
-          <label for="number">End date range</label>
-          <input type="date" class="form-control" id="e1" name="D2" placeholder="Date range">
-        </div>
-      </div>
-      </div>
-      <div>
-        <div class="col-xs-12 col-sm-16 col-md-6 col-lg-6">
-          <button type="submit" class="btn btn-default">Submit</button>
-        </div>
-        </div>
-</form><br><br><br><br>
-%%[
-SET @submit = requestparameter("submitted")
-IF @submit == 'submitted' THEN
-SET @D1 = requestParameter('D1')
-SET @D2 = requestParameter('D2')
-SET @CustomerEmail = Trim(requestParameter('email'))
-SET @EmailSubscriptionStatus = IIF(IsNull(LookupRows('ent._Subscribers','EmailAddress', @CustomerEmail)),'not found in system',Lookup('ent._Subscribers','Status','EmailAddress', @CustomerEmail))
-SET @Sent = LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @CustomerEmail)
-IIF(RowCount(@Sent) < 1, Redirect('http://pub.e.amaysim.com.au/csc-email-not-found'),'')
-]%%
-<h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;"><center>Marketing email subscription status for email address: %%=v(@CustomerEmail)=%% is %%=v(@EmailSubscriptionStatus)=%%</center></h3>
-<br><br>
-%%[ IF @EmailSubscriptionStatus != 'not found in system' THEN
-SET @SubscriberID = Lookup('GEAL_DV','SubscriberID','EmailAddress',@CustomerEmail)
-SET @SubscriberKey = Lookup('ent._Subscribers','SubscriberKey', 'SubscriberID',@SubscriberID)
-SET @mobileRowSet = LookupOrderedRows('mobile_services',0,'sfmc_date_added DESC','subscriber_key',@SubscriberKey)
-SET @mobileService = IIF(IsNull(@mobileRowSet),'0','1')
-SET @mobileSRowCount = RowCount(@mobileRowSet)
-IF @mobileService == '1' THEN ]%%
-<h3>&nbsp;Mobile service(s) </h3>
-<table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
-    <tr>
-      <th class="text-center">Mobile&nbsp;Number</th>
-      <th class="text-center">Mobile&nbsp;Service&nbsp;Plan</th>
-      <th class="text-center">Auto-topup</th>
-      <th class="text-center">Data&nbsp;Pack</th>
-      <th class="text-center">Extra&nbsp;Data</th>
-      <th class="text-center">Status&nbsp;Service</th>
-      <th class="text-center">(EC)&nbsp;SMS&nbsp;marketing&nbsp;opt-in</th>
-    </tr>
-<tr></tr>
-%%[ FOR @u = 1 to @mobileSRowCount DO
- SET @Mrow = Row(@mobileRowSet, @u)
- SET @serviceID = Field(@Mrow,'service_id')
- SET @MMobileNumber = Lookup('mobile_services','mobile_number','service_id',@serviceID)
- SET @MService = Lookup('mobile_services','plan1_retail_name','service_id',@serviceID)
- SET @MAutoTopup = Lookup('mobile_services','auto_top_up','service_id',@serviceID)
- SET @MDataPack = Lookup('mobile_services','plan2_retail_name','service_id',@serviceID)
- SET @MStatusService = IIF(Lookup('mobile_services','phone_status_current_code','service_id',@serviceID) == '0','Active','Inactive')
- SET @MSMSMKT = Lookup('mobile_services','marketing_opt_in','service_id',@serviceID)
-]%%
-    <td class="text-center">%%=v(@MMobileNumber)=%%</td>
-    <td class="text-center">%%=v(@MService)=%%</td>
-    <td class="text-center">%%=v(@MAutoTopup)=%%</td>
-    <td class="text-center">%%=v(@DateSent)=%%</td>
-    <td class="text-center">%%=v(@MDataPack)=%%</td>
-    <td class="text-center">%%=v(@MStatusService)=%%</td>
-    <td class="text-center">%%=v(@MSMSMKT)=%%</a></td>
-</tr>
-</table>
-<br><br>
-%%[ NEXT @u ENDIF ENDIF ]%%%%[ IF RowCount(@Sent) > 0 THEN ]%%
-<table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
-<h3>&nbsp;Email sends </h3>
-    <tr>
-      <th class="text-center">Email&nbsp;Name</th>
-      <th class="text-center">Subject</th>
-      <th class="text-center">Preheader</th>
-      <th class="text-center">Date&nbsp;Sent</th>
-      <th class="text-center">Bounced</th>
-      <th class="text-center">Opened</th>
-      <th class="text-center">View</th>
-    </tr>
-<tr></tr>
-%%[ FOR @i = 1 to Rowcount(@Sent) DO
- SET @row = Row(@Sent, @i)
- SET @EventID = Field(@row,'EventID')
- SET @SubjectLine = Lookup('GEAL_DV','SubjectLine','EventID',@EventID)
- SET @Preheader = Lookup('GEAL_DV','Preheader','EventID',@EventID)
- SET @DateSent = Lookup('GEAL_DV','DateSent','EventID',@EventID)
- SET @EmailName = Lookup('GEAL_DV','EmailName','EventID',@EventID)
- SET @Bounced = Lookup('GEAL_DV','Bounced','EventID',@EventID)
- SET @DateOpened = IIF(EMPTY(Lookup('GEAL_DV','DateOpened','EventID',@EventID)),'NO','YES')
- SET @ViewOnlineURL = Concat('http://pub.e.amaysim.com.au/htmlpreview/?qp=',@EventID)
-]%%%%[ IF @DateSent >= @D1 AND @DateSent <= DateAdd(StringToDate(@D2),'1','D') THEN ]%%
-    <td class="text-center">%%=v(@EmailName)=%%</td>
-    <td class="text-center">%%=v(@SubjectLine)=%%</td>
-    <td class="text-center">%%=v(@Preheader)=%%</td>
-    <td class="text-center">%%=v(@DateSent)=%%</td>
-    <td class="text-center">%%=v(@Bounced)=%%</td>
-    <td class="text-center">%%=v(@DateOpened)=%%</td>
-    <td class="text-center"><a href="%%=v(@ViewOnlineURL)=%%">Open</a></td>
-</tr>
-%%[ ENDIF ]%%%%[ NEXT @i ENDIF ]%%%%[ ENDIF ]%%
-</table>
-</div>
-</body>
-</html>
+	<div class="container">
+		<h1 >CSC Assistant - Verification</h1>
+		<br><br><br>
+		<form action="" method="post">
+		<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group">
+				<input type="hidden" value="submitted" name="submitted" >
+			    <label for="email">Email Address</label>
+			    <input type="text" class="form-control" id="email" name="email" placeholder="Enter your amaysim or click email address">
+			  </div>
+			</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-16 col-md-6 col-lg-6">
+					<button type="submit" class="btn btn-default">Submit</button>
+				</div>
+			</div>
+		</form>
+	</div>
+		<!-- jQuery -->
+		<script src="//code.jquery.com/jquery.js"></script>
+		<script src="//code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+		<!-- Bootstrap JavaScript -->
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	</body>
+</html> 
