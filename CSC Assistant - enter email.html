@@ -115,7 +115,7 @@ SET @energyService = IIF(IsNull(@energyRowSet),'0','1')
 SET @energySRowCount = RowCount(@energyRowSet)
 IF @mobileService == '1' THEN ]%%
 <h3>&nbsp;Mobile service(s) </h3>
-  <table class="table table-striped" border="10" cellspacing="10" cellpadding="10">
+  <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <th class="text-center">Mobile&nbsp;Number</th>
         <th class="text-center">Mobile&nbsp;Service&nbsp;Plan</th>
@@ -148,7 +148,7 @@ IF @mobileService == '1' THEN ]%%
   </table>
 %%[ IF @energyService == '1' THEN ]%%<br>
 <h3>&nbsp;Energy service(s) </h3>
-  <table class="table table-striped" border="10" cellspacing="10" cellpadding="10">
+  <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <th class="text-center">Energy&nbsp;Plan</th>
         <th class="text-center">Purchased&nbsp;Date</th>
@@ -181,7 +181,7 @@ IF @mobileService == '1' THEN ]%%
   %%[ NEXT @e ]%%
   </table><br>
 %%[ ENDIF ]%%%%[ ENDIF ]%%%%[ IF RowCount(@Sent) > 0 THEN ]%%
-<table class="table table-striped" border="10" cellspacing="10" cellpadding="10">
+<table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
 <h3>&nbsp;Email sends </h3>
     <tr>
       <th class="text-center">Email&nbsp;Name</th>
