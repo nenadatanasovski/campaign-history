@@ -23,6 +23,14 @@
     <script>
         $(function() { $("#e1").daterangepicker(); });
     </script>
+<style>
+form {
+   width: 550px;
+   height: 450px;
+   margin: auto;
+   position: relative;
+ }
+</style>
   </head>
   <script type="text/javascript">
     var url = 'https://api.ipify.org';
@@ -77,7 +85,7 @@ IIF(@HashCheck != @secretHash,
     <div class="input-text-submittable">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
-          <input type="date" class="form-control" id="e1" name="D2" placeholder="Date range" width="200">
+          <input type="date" class="form-control" id="e1" name="D2" placeholder="Date range">
         </div>
       </div>
     </div>
