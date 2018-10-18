@@ -23,7 +23,7 @@
     <script>
         $(function() { $("#e1").daterangepicker(); });
     </script>
-<style> input { width: 475px; height: 75px; } </style>
+<style> input { width: 475px; height: 45px; } </style>
   </head>
   <script type="text/javascript">
     var url = 'https://api.ipify.org';
@@ -59,7 +59,8 @@ IIF(@HashCheck != @secretHash,
 <div class="container">
   <h1>CSC Assistant - Service & campaign info</h1>
   <br><br>
-  <form action="" method="post"> 
+  <form action="" method="post">
+  <h2>Customer Email Address</h2> 
       <div class="input-text-submittable">
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
           <div class="form-group">
@@ -68,17 +69,19 @@ IIF(@HashCheck != @secretHash,
           </div>
         </div>
       </div>
+      <h2>Start Date Range</h2>
       <div class="input-text-submittable">
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
           <div class="form-group">
-            <input type="date" class="form-control" id="e1" name="D1" placeholder="Date range"><h2>Start Date Range</h2>
+            <input type="date" class="form-control" id="e1" name="D1" placeholder="Date range">
           </div>
         </div>
       </div>
+      <h2>End Date Range</h2>
     <div class="input-text-submittable">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
-          <input type="date" class="form-control" id="e1" name="D2" placeholder="Date range"><h2>End Date Range</h2>
+          <input type="date" class="form-control" id="e1" name="D2" placeholder="Date range">
         </div>
       </div>
     </div>
