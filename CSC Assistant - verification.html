@@ -17,6 +17,7 @@
 </script>
 %%[
 SET @date = FormatDate(SystemdateToLocalDate(NOW()), "YYYY-MM-DD")
+SET @secret = '4509%%4609?^%%^jklddsajk4?$^43234kjl?DFDSDF'
 SET @ipcheck = IIF(IsNull(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address',@ip))),RaiseError('Access Denied: Unregistered IP address'),'Access granted')
 SET @submit = requestparameter("submitted")
 IF @submit == 'submitted' AND @ipcheck == 'Access granted' THEN
