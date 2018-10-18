@@ -113,8 +113,10 @@ SET @mobileSRowCount = RowCount(@mobileRowSet)
 SET @energyRowSet = LookupOrderedRows('energy_services',0,'date_created DESC','subscriber_key',@SubscriberKey)
 SET @energyService = IIF(IsNull(@energyRowSet),'0','1')
 SET @energySRowCount = RowCount(@energyRowSet)
+SET @mobileLogo = 'https://www.amaysim.com.au/sites/default/files/contact-icons/help_icons_sim_plans.svg'
+SET @energyLogo = 'https://www.amaysim.com.au/sites/default/files/2017-10/help_icons_energy_1.svg'
 IF @mobileService == '1' THEN ]%%
-<h3>&nbsp;Mobile service(s) </h3>
+<h3>&nbsp;Mobile service(s) <img src=%%=v(@mobileLogo)=%% height="30" width="30"></h3>
   <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <th class="text-center">Mobile&nbsp;Number</th>
@@ -147,7 +149,7 @@ IF @mobileService == '1' THEN ]%%
   %%[ NEXT @u ]%%%%[ ENDIF ]%%
   </table>
 %%[ IF @energyService == '1' THEN ]%%<br>
-<h3>&nbsp;Energy service(s) </h3>
+<h3>&nbsp;Energy service(s) <img src=%%=v(@energyLogo)=%% height="30" width="30"></h3>
   <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <th class="text-center">Energy&nbsp;Plan</th>
