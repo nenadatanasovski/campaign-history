@@ -135,10 +135,11 @@ IF @mobileService == '1' THEN ]%%
     <td class="text-center">%%=v(@MDataPack)=%%</td>
     <td class="text-center">%%=v(@MStatusService)=%%</td>
     <td class="text-center">%%=v(@MSMSMKT)=%%</a></td>
+%%[ NEXT @u ]%%
 </tr>
 </table>
 <br><br>
-%%[ NEXT @u ENDIF ENDIF ]%%%%[ IF RowCount(@Sent) > 0 THEN ]%%
+%%[ ENDIF ENDIF ]%%%%[ IF RowCount(@Sent) > 0 THEN ]%%
 <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
 <h3>&nbsp;Email sends </h3>
     <tr>
