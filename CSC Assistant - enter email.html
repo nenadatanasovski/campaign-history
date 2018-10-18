@@ -98,7 +98,7 @@ SET @Sent = LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @Custo
 IIF(RowCount(@Sent) < 1, Redirect('http://pub.e.amaysim.com.au/csc-email-not-found'),'')
 ]%%
 <h2>Email address: %%=v(@CustomerEmail)=%%</h2>
-<h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;">Subscribed to email marketing | Status: %%=v(@EmailSubscriptionStatus)=%%</h3>
+<h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;">%%=IIF(@EmailSubscriptionStatus == 'active', ContentBlockByKey('b792fafb-604f-4874-8583-a525d4f8b97c',ContentBlockByKey('cf803c77-fb7b-489a-b965-25c501017f24'))=%% to email marketing | Status: %%=v(@EmailSubscriptionStatus)=%%</h3>
 <br><br>
 %%[ IF @EmailSubscriptionStatus != 'not found in system' THEN
 SET @SubscriberID = Lookup('GEAL_DV','SubscriberID','EmailAddress',@CustomerEmail)
