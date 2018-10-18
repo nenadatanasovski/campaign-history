@@ -110,71 +110,71 @@ SET @energyService = IIF(IsNull(@energyRowSet),'0','1')
 SET @energySRowCount = RowCount(@energyRowSet)
 IF @mobileService == '1' THEN ]%%
 <h3>&nbsp;Mobile service(s) </h3>
-<table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
-    <tr>
-      <th class="text-center">Mobile&nbsp;Number</th>
-      <th class="text-center">Mobile&nbsp;Service&nbsp;Plan</th>
-      <th class="text-center">Auto-topup</th>
-      <th class="text-center">Data&nbsp;Pack</th>
-      <th class="text-center">Extra&nbsp;Data</th>
-      <th class="text-center">Status&nbsp;Service</th>
-      <th class="text-center">(EC)&nbsp;SMS&nbsp;marketing&nbsp;opt-in</th>
-    </tr>
-<tr></tr>
-%%[ FOR @u = 1 to @mobileSRowCount DO
- SET @Mrow = Row(@mobileRowSet, @u)
- SET @serviceID = Field(@Mrow,'service_id')
- SET @MMobileNumber = Lookup('mobile_services','mobile_number','service_id',@serviceID)
- SET @MService = Lookup('mobile_services','plan1_retail_name','service_id',@serviceID)
- SET @MAutoTopup = Lookup('mobile_services','auto_top_up','service_id',@serviceID)
- SET @MDataPack = Lookup('mobile_services','plan2_retail_name','service_id',@serviceID)
- SET @MStatusService = IIF(Lookup('mobile_services','phone_status_current_code','service_id',@serviceID) == '0','Active','Inactive')
- SET @MSMSMKT = Lookup('mobile_services','marketing_opt_in','service_id',@serviceID)
-]%%
-    <td class="text-center">%%=v(@MMobileNumber)=%%</td>
-    <td class="text-center">%%=v(@MService)=%%</td>
-    <td class="text-center">%%=v(@MAutoTopup)=%%</td>
-    <td class="text-center">%%=v(@DateSent)=%%</td>
-    <td class="text-center">%%=v(@MDataPack)=%%</td>
-    <td class="text-center">%%=v(@MStatusService)=%%</td>
-    <td class="text-center">%%=v(@MSMSMKT)=%%</td>
-    </tr>
-%%[ NEXT @u ]%%%%[ ENDIF ]%%
-%%[ IF @energyService == '1' THEN ]%%
+  <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <th class="text-center">Mobile&nbsp;Number</th>
+        <th class="text-center">Mobile&nbsp;Service&nbsp;Plan</th>
+        <th class="text-center">Auto-topup</th>
+        <th class="text-center">Data&nbsp;Pack</th>
+        <th class="text-center">Extra&nbsp;Data</th>
+        <th class="text-center">Status&nbsp;Service</th>
+        <th class="text-center">(EC)&nbsp;SMS&nbsp;marketing&nbsp;opt-in</th>
+      </tr>
+  <tr></tr>
+  %%[ FOR @u = 1 to @mobileSRowCount DO
+   SET @Mrow = Row(@mobileRowSet, @u)
+   SET @serviceID = Field(@Mrow,'service_id')
+   SET @MMobileNumber = Lookup('mobile_services','mobile_number','service_id',@serviceID)
+   SET @MService = Lookup('mobile_services','plan1_retail_name','service_id',@serviceID)
+   SET @MAutoTopup = Lookup('mobile_services','auto_top_up','service_id',@serviceID)
+   SET @MDataPack = Lookup('mobile_services','plan2_retail_name','service_id',@serviceID)
+   SET @MStatusService = IIF(Lookup('mobile_services','phone_status_current_code','service_id',@serviceID) == '0','Active','Inactive')
+   SET @MSMSMKT = Lookup('mobile_services','marketing_opt_in','service_id',@serviceID)
+  ]%%
+      <td class="text-center">%%=v(@MMobileNumber)=%%</td>
+      <td class="text-center">%%=v(@MService)=%%</td>
+      <td class="text-center">%%=v(@MAutoTopup)=%%</td>
+      <td class="text-center">%%=v(@DateSent)=%%</td>
+      <td class="text-center">%%=v(@MDataPack)=%%</td>
+      <td class="text-center">%%=v(@MStatusService)=%%</td>
+      <td class="text-center">%%=v(@MSMSMKT)=%%</td>
+      </tr>
+  %%[ NEXT @u ]%%%%[ ENDIF ]%%
+  </table><br><br>
+%%[ IF @energyService == '1' THEN ]%%<br><br>
 <h3>&nbsp;Energy service(s) </h3>
-<table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
-    <tr>
-      <th class="text-center">Energy&nbsp;Plan</th>
-      <th class="text-center">Purchased&nbsp;Date</th>
-      <th class="text-center">Connected&nbsp;Date</th>
-      <th class="text-center">Disconnected&nbsp;Date</th>
-      <th class="text-center">PostCode</th>
-      <th class="text-center">Status&nbsp;Service</th>
-      <th class="text-center">Source&nbsp;Purchased</th>
-    </tr>
-<tr></tr>
-%%[ FOR @e = 1 to @energySRowCount DO
- SET @Erow = Row(@energyRowSet, @e)
- SET @serviceID = Field(@Erow,'service_id')
- SET @plan_name = Lookup('energy_services','plan_name','service_id',@serviceID)
- SET @fuel_purchased_date = Lookup('energy_services','fuel_purchased_date','service_id',@serviceID)
- SET @fuel_connected_date = Lookup('energy_services','fuel_connected_date','service_id',@serviceID)
- SET @fuel_disconnected_date = Lookup('energy_services','fuel_disconnected_date','service_id',@serviceID)
- SET @energy_postcode = Lookup('energy_services','energy_postcode','service_id',@serviceID)
- SET @energy_status = Lookup('energy_services','energy_status','service_id',@serviceID)
- SET @source = Lookup('energy_services','source','service_id',@serviceID)
-]%%
-    <td class="text-center">%%=v(@plan_name)=%%</td>
-    <td class="text-center">%%=v(@fuel_purchased_date)=%%</td>
-    <td class="text-center">%%=v(@fuel_connected_date)=%%</td>
-    <td class="text-center">%%=v(@fuel_disconnected_date)=%%</td>
-    <td class="text-center">%%=v(@energy_postcode)=%%</td>
-    <td class="text-center">%%=v(@energy_status)=%%</td>
-    <td class="text-center">%%=v(@source)=%%</td>
-    </tr>
-%%[ NEXT @e ]%%%%[ ENDIF ]%%
-</table>
-<br><br>
+  <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <th class="text-center">Energy&nbsp;Plan</th>
+        <th class="text-center">Purchased&nbsp;Date</th>
+        <th class="text-center">Connected&nbsp;Date</th>
+        <th class="text-center">Disconnected&nbsp;Date</th>
+        <th class="text-center">PostCode</th>
+        <th class="text-center">Status&nbsp;Service</th>
+        <th class="text-center">Source&nbsp;Purchased</th>
+      </tr>
+  <tr></tr>
+  %%[ FOR @e = 1 to @energySRowCount DO
+   SET @Erow = Row(@energyRowSet, @e)
+   SET @serviceID = Field(@Erow,'service_id')
+   SET @plan_name = Lookup('energy_services','plan_name','service_id',@serviceID)
+   SET @fuel_purchased_date = Lookup('energy_services','fuel_purchased_date','service_id',@serviceID)
+   SET @fuel_connected_date = Lookup('energy_services','fuel_connected_date','service_id',@serviceID)
+   SET @fuel_disconnected_date = Lookup('energy_services','fuel_disconnected_date','service_id',@serviceID)
+   SET @energy_postcode = Lookup('energy_services','energy_postcode','service_id',@serviceID)
+   SET @energy_status = Lookup('energy_services','energy_status','service_id',@serviceID)
+   SET @source = Lookup('energy_services','source','service_id',@serviceID)
+  ]%%
+      <td class="text-center">%%=v(@plan_name)=%%</td>
+      <td class="text-center">%%=v(@fuel_purchased_date)=%%</td>
+      <td class="text-center">%%=v(@fuel_connected_date)=%%</td>
+      <td class="text-center">%%=v(@fuel_disconnected_date)=%%</td>
+      <td class="text-center">%%=v(@energy_postcode)=%%</td>
+      <td class="text-center">%%=v(@energy_status)=%%</td>
+      <td class="text-center">%%=v(@source)=%%</td>
+      </tr>
+  %%[ NEXT @e ]%%%%[ ENDIF ]%%
+  </table><br><br>
 %%[ ENDIF ]%%%%[ IF RowCount(@Sent) > 0 THEN ]%%
 <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
 <h3>&nbsp;Email sends </h3>
