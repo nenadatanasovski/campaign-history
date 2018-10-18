@@ -21,7 +21,7 @@ SET @ipcheck = IIF(IsNull(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address
 SET @submit = requestparameter("submitted")
 IF @submit == 'submitted' AND @ipcheck == 'Access granted' THEN
 SET @guid = Trim(requestparameter("password"))
-SET @LoginDate = IIF(IsNull(LookupOrderedRows('CSC_Verification_System',0,'SystemDate DESC','VerificationCode',@guid)),Redirect('http://pub.e.amaysim.com.au/csc-invalid-login-code'),StringToDate(Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate DESC','VerificationCode',@guid),1),'LoginDate')))
+SET @LoginDate = IIF(IsNull(LookupOrderedRows('CSC_Verification_System',0,'SystemDate DESC','VerificationCode',@guid)),Redirect('http://pub.e.amaysim.com.au/csc-invalid-login-code/'),StringToDate(Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate DESC','VerificationCode',@guid),1),'LoginDate')))
 IF @LoginDate == @date THEN
 SET @HashCheck = SHA256(concat(@secret, @guid, @date),"UTF-16")
 Redirect(concat('http://pub.e.amaysim.com.au/csc-enter-email/?h=', @HashCheck))
