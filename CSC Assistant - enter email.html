@@ -105,7 +105,7 @@ SET @SubscriberKey = Lookup('ent._Subscribers','SubscriberKey', 'SubscriberID',@
 SET @mobileRowSet = LookupOrderedRows('mobile_services',0,'sfmc_date_added DESC','subscriber_key',@SubscriberKey)
 SET @mobileService = IIF(IsNull(@mobileRowSet),'0','1')
 SET @mobileSRowCount = RowCount(@mobileRowSet)
-SET @energyRowSet = LookupOrderedRows('energy_services',0,'sfmc_date_added DESC','subscriber_key',@SubscriberKey)
+SET @energyRowSet = LookupOrderedRows('energy_services',0,'date_created DESC','subscriber_key',@SubscriberKey)
 SET @energyService = IIF(IsNull(@energyRowSet),'0','1')
 SET @energySRowCount = RowCount(@energyRowSet)
 IF @mobileService == '1' THEN ]%%
