@@ -141,7 +141,7 @@ IF @mobileService == '1' THEN ]%%
       </tr>
   %%[ NEXT @u ]%%%%[ ENDIF ]%%
   </table>
-%%[ IF @energyService == '1' THEN ]%%<br><br>
+%%[ IF @energyService == '1' THEN ]%%<br>
 <h3>&nbsp;Energy service(s) </h3>
   <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
       <tr>
@@ -173,9 +173,9 @@ IF @mobileService == '1' THEN ]%%
       <td class="text-center">%%=v(@energy_status)=%%</td>
       <td class="text-center">%%=v(@source)=%%</td>
       </tr>
-  %%[ NEXT @e ]%%%%[ ENDIF ]%%
-  </table>
-%%[ ENDIF ]%%%%[ IF RowCount(@Sent) > 0 THEN ]%%
+  %%[ NEXT @e ]%%
+  </table><br>
+%%[ ENDIF ]%%%%[ ENDIF ]%%%%[ IF RowCount(@Sent) > 0 THEN ]%%
 <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
 <h3>&nbsp;Email sends </h3>
     <tr>
@@ -207,8 +207,9 @@ IF @mobileService == '1' THEN ]%%
     <td class="text-center">%%=v(@DateOpened)=%%</td>
     <td class="text-center"><a href="%%=v(@ViewOnlineURL)=%%">Open</a></td>
 </tr>
-%%[ ENDIF ]%%%%[ NEXT @i ENDIF ]%%%%[ ENDIF ]%%
+%%[ ENDIF ]%%%%[ NEXT @i ]%%%%[ ENDIF ]%%
 </table>
+%%[ ENDIF ]%%
 </div>
 </body>
 </html>
