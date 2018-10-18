@@ -97,7 +97,8 @@ SET @EmailSubscriptionStatus = IIF(IsNull(LookupRows('ent._Subscribers','EmailAd
 SET @Sent = LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @CustomerEmail)
 IIF(RowCount(@Sent) < 1, Redirect('http://pub.e.amaysim.com.au/csc-email-not-found'),'')
 ]%%
-<h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;">Marketing email subscription status for email address: %%=v(@CustomerEmail)=%% is %%=v(@EmailSubscriptionStatus)=%%</h3>
+<h2>Email address: %%=v(@CustomerEmail)=%%</h2>
+<h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;">Subscribed to email marketing | Status: %%=v(@EmailSubscriptionStatus)=%%</h3>
 <br><br>
 %%[ IF @EmailSubscriptionStatus != 'not found in system' THEN
 SET @SubscriberID = Lookup('GEAL_DV','SubscriberID','EmailAddress',@CustomerEmail)
