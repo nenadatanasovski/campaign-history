@@ -55,7 +55,7 @@ IIF(@HashCheck != @secretHash,
 ]%%
 <body>
 <div class="container">
-  <h1>CSC Assistant - Customer service and campaign info</h1>
+  <h1>CSC Assistant - Service & campaign info</h1>
   <br><br><br>
   <form action="" method="post"> 
       <div class="row">
@@ -155,7 +155,7 @@ IF @mobileService == '1' THEN ]%%
         <th class="text-center">Status&nbsp;Service</th>
         <th class="text-center">Source&nbsp;Purchased</th>
       </tr>
-  <tr></tr>
+   <tr></tr>
   %%[ FOR @e = 1 to @energySRowCount DO
    SET @Erow = Row(@energyRowSet, @e)
    SET @serviceID = Field(@Erow,'service_id')
@@ -189,7 +189,7 @@ IF @mobileService == '1' THEN ]%%
       <th class="text-center">Opened</th>
       <th class="text-center">View</th>
     </tr>
-<tr></tr>
+ <tr></tr>
 %%[ FOR @i = 1 to Rowcount(@Sent) DO
  SET @row = Row(@Sent, @i)
  SET @EventID = Field(@row,'EventID')
