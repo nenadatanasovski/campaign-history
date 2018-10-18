@@ -101,7 +101,7 @@ IIF(RowCount(@Sent) < 1, Redirect('http://pub.e.amaysim.com.au/csc-email-not-fou
 SET @LogoEmailSub = IIF(@EmailSubscriptionStatus == 'active','https://image.e.amaysim.com.au/lib/fe9415747365027b76/m/1/c053a43a-634a-4362-97a4-30c8120c834e.png','https://image.e.amaysim.com.au/lib/fe9415747365027b76/m/1/8a977db3-7b99-4759-92ea-378b614cfb8f.png')
 ]%%
 <h2>Email address: %%=v(@CustomerEmail)=%%</h2>
-<h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;"><img src=%%=v(@LogoEmailSub)=%% height="15" width="15"> Subscribed to email marketing | Status: %%=v(@EmailSubscriptionStatus)=%%</h3>
+<h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;"><img src=%%=v(@LogoEmailSub)=%% height="17" width="17"> Subscribed to email marketing | Status: %%=v(@EmailSubscriptionStatus)=%%</h3>
 <br><br>
 %%[ IF @EmailSubscriptionStatus != 'not found in system' THEN
 SET @SubscriberID = Lookup('GEAL_DV','SubscriberID','EmailAddress',@CustomerEmail)
