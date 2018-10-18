@@ -47,7 +47,8 @@ SET @ipcheck = IIF(IsNull(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address
 SET @secretHash = QueryParameter('h')
 SET @secret = '4509%%4609?^%%^jklddsajk4?$^43234kjl?DFDSDF'
 SET @date = FormatDate(SystemdateToLocalDate(NOW()), "YYYY-MM-DD")
-SET @GUID = Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate Desc','LoginDate',@date),'1'),'VerificationCode')
+SET @GUID = 
+IIF(IsNull(LookupOrderedRows('CSC_Verification_System',0,'SystemDate Desc','LoginDate',@date)),Redirect(Concat('http://pub.e.amaysim.com.au/csc-verification','?hashcheck=',@HashCheck,'&secretHash=',@secretHash)),Field(Row(LookupOrderedRows('CSC_Verification_System',0,'SystemDate Desc','LoginDate',@date),'1'),'VerificationCode'))
 SET @LoginDate = Lookup('CSC_Verification_System','LoginDate','VerificationCode',@GUID)
 SET @HashCheck = SHA256(concat(@secret, @GUID, @date),"UTF-16")
 IIF(@HashCheck != @secretHash,
