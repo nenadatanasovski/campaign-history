@@ -23,7 +23,7 @@
     <script>
         $(function() { $("#e1").daterangepicker(); });
     </script>
-<style> input { width: 575px; height: 45px; } h3 { padding-top: 20px; padding-bottom: 7px; margin: 5px; } </style>
+<style> input { width: 575px; height: 45px; } h3 { padding-top: 20px; padding-bottom: 7px; margin: 0px; } </style>
   </head>
   <script type="text/javascript">
     var url = 'https://api.ipify.org';
@@ -185,7 +185,7 @@ IF @mobileService == '1' THEN ]%%
   </table><br>
 %%[ ENDIF ]%%%%[ ENDIF ]%%%%[ IF RowCount(@Sent) > 0 THEN ]%%
 <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
-<h3>&nbsp;Email sends&nbsp;<img src=%%=v(@emailLogo)=%% height="30" width="30"></h3>
+<h3>&nbsp;Email sends&nbsp;&nbsp<img src=%%=v(@emailLogo)=%% height="30" width="30"></h3>
     <tr>
       <th class="text-center">Email&nbsp;Name</th>
       <th class="text-center">Subject</th>
