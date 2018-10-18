@@ -115,6 +115,7 @@ SET @energyService = IIF(IsNull(@energyRowSet),'0','1')
 SET @energySRowCount = RowCount(@energyRowSet)
 SET @mobileLogo = 'https://www.amaysim.com.au/sites/default/files/contact-icons/help_icons_sim_plans.svg'
 SET @energyLogo = 'https://www.amaysim.com.au/sites/default/files/2017-10/help_icons_energy_1.svg'
+SET @emailLogo = 'https://dop.mosreg.ru/img/mail_or.png'
 IF @mobileService == '1' THEN ]%%
 <h3>&nbsp;Mobile service(s) <img src=%%=v(@mobileLogo)=%% height="30" width="30"></h3>
   <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
@@ -184,7 +185,7 @@ IF @mobileService == '1' THEN ]%%
   </table><br>
 %%[ ENDIF ]%%%%[ ENDIF ]%%%%[ IF RowCount(@Sent) > 0 THEN ]%%
 <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
-<h3>&nbsp;Email sends </h3>
+<h3>&nbsp;Email sends <img src=%%=v(@emailLogo)=%% height="30" width="30"></h3>
     <tr>
       <th class="text-center">Email&nbsp;Name</th>
       <th class="text-center">Subject</th>
