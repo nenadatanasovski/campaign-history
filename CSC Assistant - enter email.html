@@ -55,7 +55,7 @@ SET @HashCheck = SHA256(concat(@secret, @GUID, @date),"UTF-16")
 IIF(@HashCheck != @secretHash,
   Redirect(Concat('http://pub.e.amaysim.com.au/csc-verification','?hashcheck=',@HashCheck,'&secretHash=',@secretHash)),'')
 ]%%
-<body class="page-home"><br><br>
+<body class="page-home"><br>
 <div class="container">
   <h1>CSC Assistant - Service & campaign info</h1>
   <br><br>
