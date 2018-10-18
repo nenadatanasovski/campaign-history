@@ -57,7 +57,7 @@ IIF(@HashCheck != @secretHash,
 <body>
 <div class="container">
   <h1>CSC Assistant - Service & campaign info</h1>
-  <br><br><br>
+  <br><br>
   <form action="" method="post"> 
       <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -87,7 +87,7 @@ IIF(@HashCheck != @secretHash,
       <div class="col-xs-12 col-sm-16 col-md-6 col-lg-6">
         <button type="submit" class="btn btn-default">Submit</button>
       </div>
-</form><br><br><br><br>
+</form><br><br>
 %%[
 SET @submit = requestparameter("submitted")
 IF @submit == 'submitted' THEN
@@ -113,7 +113,7 @@ SET @energyService = IIF(IsNull(@energyRowSet),'0','1')
 SET @energySRowCount = RowCount(@energyRowSet)
 IF @mobileService == '1' THEN ]%%
 <h3>&nbsp;Mobile service(s) </h3>
-  <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
+  <table class="table table-striped" border="10" cellspacing="10" cellpadding="10">
       <tr>
         <th class="text-center">Mobile&nbsp;Number</th>
         <th class="text-center">Mobile&nbsp;Service&nbsp;Plan</th>
@@ -146,7 +146,7 @@ IF @mobileService == '1' THEN ]%%
   </table>
 %%[ IF @energyService == '1' THEN ]%%<br>
 <h3>&nbsp;Energy service(s) </h3>
-  <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
+  <table class="table table-striped" border="10" cellspacing="10" cellpadding="10">
       <tr>
         <th class="text-center">Energy&nbsp;Plan</th>
         <th class="text-center">Purchased&nbsp;Date</th>
@@ -179,7 +179,7 @@ IF @mobileService == '1' THEN ]%%
   %%[ NEXT @e ]%%
   </table><br>
 %%[ ENDIF ]%%%%[ ENDIF ]%%%%[ IF RowCount(@Sent) > 0 THEN ]%%
-<table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
+<table class="table table-striped" border="10" cellspacing="10" cellpadding="10">
 <h3>&nbsp;Email sends </h3>
     <tr>
       <th class="text-center">Email&nbsp;Name</th>
