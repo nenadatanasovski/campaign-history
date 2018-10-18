@@ -139,7 +139,7 @@ IF @mobileService == '1' THEN ]%%
     <td class="text-center">%%=v(@MStatusService)=%%</td>
     <td class="text-center">%%=v(@MSMSMKT)=%%</td>
     </tr>
-%%[ NEXT @u ]%%
+%%[ NEXT @u ]%%%%[ ENDIF ]%%
 %%[ IF @energyService == '1' THEN ]%%
 <h3>&nbsp;Energy service(s) </h3>
 <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
@@ -172,10 +172,10 @@ IF @mobileService == '1' THEN ]%%
     <td class="text-center">%%=v(@energy_status)=%%</td>
     <td class="text-center">%%=v(@source)=%%</td>
     </tr>
-%%[ NEXT @e ]%%
+%%[ NEXT @e ]%%%%[ ENDIF ]%%
 </table>
 <br><br>
-%%[ ENDIF ENDIF ]%%%%[ IF RowCount(@Sent) > 0 THEN ]%%
+%%[ ENDIF ]%%%%[ IF RowCount(@Sent) > 0 THEN ]%%
 <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
 <h3>&nbsp;Email sends </h3>
     <tr>
