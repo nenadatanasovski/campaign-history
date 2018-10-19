@@ -84,7 +84,7 @@ SET @Sent = LookupOrderedRows('GEAL_DV',0,'DateSent Desc','EmailAddress', @Custo
 IIF(RowCount(@Sent) < 1, Redirect('http://pub.e.amaysim.com.au/csc-email-not-found'),'')
 SET @LogoEmailSub = IIF(@EmailSubscriptionStatus == 'active','https://image.e.amaysim.com.au/lib/fe9415747365027b76/m/1/c053a43a-634a-4362-97a4-30c8120c834e.png','https://image.e.amaysim.com.au/lib/fe9415747365027b76/m/1/8a977db3-7b99-4759-92ea-378b614cfb8f.png')
 ]%%
-<h2>Email address: %%=v(@CustomerEmail)=%% ipcheck: %%=v(@ipcheck)=%% ip address: %%=v(@ip)=%%</h2>
+<h2>%%=v(@CustomerEmail)=%%</h2>
 <h3 style="color:%%=IIF(@EmailSubscriptionStatus == 'active','green','red')=%%;"><img src=%%=v(@LogoEmailSub)=%% height="20" width="20"> Subscribed to email marketing | Status: %%=v(@EmailSubscriptionStatus)=%%</h3>
 <br><br>
 %%[ IF @EmailSubscriptionStatus != 'not found in system' THEN
