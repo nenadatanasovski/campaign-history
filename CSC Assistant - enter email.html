@@ -43,8 +43,6 @@
   Variable.SetValue("@ip",ip);
 </script>
 %%[
-SET @ipcheck = IIF(IsNull(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address',@ip))),RaiseError('Unregistered IP address'),'Access granted')
-]%%%%[
 /* Get Safety params */
 SET @secretHash = QueryParameter('h')
 SET @secret = '4509%%4609?^%%^jklddsajk4?$^43234kjl?DFDSDF'
@@ -77,6 +75,7 @@ IIF(@HashCheck != @secretHash,
 %%[
 SET @submit = requestparameter("submitted")
 IF @submit == 'submitted' AND @ipcheck == 'Access granted' THEN
+SET @ipcheck = IIF(IsNull(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address',@ip))),RaiseError('Unregistered IP address'),'Access granted')
 SET @D1 = requestParameter('D1')
 SET @D2 = requestParameter('D2')
 SET @CustomerEmail = Trim(requestParameter('email'))
