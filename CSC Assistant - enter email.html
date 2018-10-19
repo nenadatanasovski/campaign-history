@@ -76,7 +76,7 @@ IIF(@HashCheck != @secretHash,
 </form><br><br>
 %%[
 SET @submit = requestparameter("submitted")
-IF @submit == 'submitted' THEN
+IF @submit == 'submitted' AND @ipcheck == 'Access granted' THEN
 SET @D1 = requestParameter('D1')
 SET @D2 = requestParameter('D2')
 SET @CustomerEmail = Trim(requestParameter('email'))
