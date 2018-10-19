@@ -44,7 +44,7 @@
 </script>
 %%[
 /* Get Safety params */
-IIF(IsNull(RowCount(LookupRows('IP_Addresses_amaysim','IP_Address',@ip))),RaiseError('Unregistered IP address'),'Access granted')
+IIF(IsNull(RowCount(Lookup('IP_Addresses_amaysim','IP_Address','IP_Address',@ip))),RaiseError('Unregistered IP address'),'Access granted')
 SET @submit = requestparameter("submitted")
 SET @secretHash = QueryParameter('h')
 SET @secret = '4509%%4609?^%%^jklddsajk4?$^43234kjl?DFDSDF'
