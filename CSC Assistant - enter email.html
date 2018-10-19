@@ -69,22 +69,6 @@ IIF(@HashCheck != @secretHash,
           </div>
         </div>
       </div>
-      <h3>Select search start date</h3>
-      <div class="input-text-submittable">
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-          <div class="form-group">
-            <input type="date" class="form-control" id="e1" name="D1" placeholder="Date range">
-          </div>
-        </div>
-      </div>
-      <h3>Select search end date</h3>
-    <div class="input-text-submittasble">
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="form-group">
-          <input type="date" class="form-control" id="e1" name="D2" placeholder="Date range">
-        </div>
-      </div>
-    </div>
       <div class="col-xs-12 col-sm-16 col-md-6 col-lg-6">
         <br>
         <button type="submit" class="btn btn-default">Submit</button>
@@ -206,7 +190,7 @@ IF @mobileService == '1' THEN ]%%
  SET @Bounced = Lookup('GEAL_DV','Bounced','EventID',@EventID)
  SET @DateOpened = IIF(EMPTY(Lookup('GEAL_DV','DateOpened','EventID',@EventID)),'NO','YES')
  SET @ViewOnlineURL = Concat('http://pub.e.amaysim.com.au/htmlpreview/?qp=',@EventID)
-]%%%%[ IF @DateSent >= @D1 AND @DateSent <= DateAdd(StringToDate(@D2),'1','D') THEN ]%%
+]%%
     <td class="text-center">%%=v(@EmailName)=%%</td>
     <td class="text-center">%%=v(@SubjectLine)=%%</td>
     <td class="text-center">%%=v(@Preheader)=%%</td>
@@ -215,7 +199,7 @@ IF @mobileService == '1' THEN ]%%
     <td class="text-center">%%=v(@DateOpened)=%%</td>
     <td class="text-center"><a href="%%=v(@ViewOnlineURL)=%%">Open</a></td>
 </tr>
-%%[ ENDIF ]%%%%[ NEXT @i ]%%%%[ ENDIF ]%%
+%%[ NEXT @i ]%%%%[ ENDIF ]%%
 </table>
 %%[ ENDIF ]%%
 </div>
